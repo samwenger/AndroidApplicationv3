@@ -3,7 +3,10 @@ package com.example.androidapplicationv3.database.entity;
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import com.example.androidapplicationv3.database.converters.Converters;
 
 import java.sql.Date;
 import java.util.Objects;
@@ -23,12 +26,12 @@ public class UserEntity {
 
     private String password;
 
-    private Date birthday;
+    private Long birthday;
 
     private int remainingDays;
 
 
-    public UserEntity(String lastname, String firstname, String login, String password, Date birthday, int remainingDays){
+    public UserEntity(String lastname, String firstname, String login, String password, Long birthday, int remainingDays){
         this.lastname = lastname;
         this.firstname = firstname;
         this.login = login;
@@ -58,7 +61,7 @@ public class UserEntity {
         return password;
     }
 
-    public Date getBirthday() {
+    public Long getBirthday() {
         return birthday;
     }
 
@@ -86,7 +89,7 @@ public class UserEntity {
         this.password = password;
     }
 
-    public void setBirthday(Date birthday) {
+    public void setBirthday(Long birthday) {
         this.birthday = birthday;
     }
 

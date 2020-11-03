@@ -8,7 +8,7 @@ import java.util.Objects;
 @Entity(tableName = "status")
 public class StatusEntity {
     @PrimaryKey(autoGenerate = true)
-    private Long idRole;
+    private Long idStatus;
 
     private String status;
 
@@ -16,16 +16,16 @@ public class StatusEntity {
         this.status = status;
     }
 
-    public Long getIdRole() {
-        return idRole;
+    public Long getIdStatus() {
+        return idStatus;
     }
 
     public String getStatus() {
         return status;
     }
 
-    public void setIdRole(Long idRole) {
-        this.idRole = idRole;
+    public void setIdStatus(Long idStatus) {
+        this.idStatus = idStatus;
     }
 
     public void setStatus(String status) {
@@ -37,12 +37,12 @@ public class StatusEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         StatusEntity that = (StatusEntity) o;
-        return Objects.equals(idRole, that.idRole);
+        return Objects.equals(idStatus, that.idStatus);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idRole);
+        return Objects.hash(idStatus);
     }
 
 }

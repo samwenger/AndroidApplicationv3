@@ -1,9 +1,14 @@
 package com.example.androidapplicationv3.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
 @Entity(tableName = "user-role",
+        primaryKeys = {
+        "idUser","idRole"
+        },
         foreignKeys = {
         @ForeignKey(
                 entity = UserEntity.class,
@@ -17,7 +22,9 @@ import androidx.room.ForeignKey;
         )}
 )
 public class UserRoleEntity {
+    @NonNull
     private Long idUser;
+    @NonNull
     private Long idRole;
 
     public UserRoleEntity(Long idUser, Long idRole) {

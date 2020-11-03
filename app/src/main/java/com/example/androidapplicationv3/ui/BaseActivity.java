@@ -21,6 +21,8 @@ import androidx.appcompat.widget.Toolbar;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    public static final String PREFS_ID = "id";
+
     protected FrameLayout frameLayout;
     protected DrawerLayout drawerLayout;
     protected NavigationView navigationView;

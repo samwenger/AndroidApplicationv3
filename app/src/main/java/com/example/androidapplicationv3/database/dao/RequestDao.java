@@ -1,4 +1,7 @@
 package com.example.androidapplicationv3.database.dao;
 
-public class RequestDao {
+import androidx.room.Dao;
+
+@Dao
+public interface RequestDao {
 }

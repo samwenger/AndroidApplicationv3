@@ -1,18 +1,23 @@
 package com.example.androidapplicationv3.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
-@Entity(tableName = "status")
+@Entity(tableName = "status",
+        primaryKeys ="idStatus")
+
 public class StatusEntity {
-    @PrimaryKey(autoGenerate = true)
+    @NonNull
     private Long idStatus;
 
+    @NonNull
     private String status;
 
-    public StatusEntity() {
+    public StatusEntity(Long idStatus, String status) {
+        this.idStatus=idStatus;
         this.status = status;
     }
 

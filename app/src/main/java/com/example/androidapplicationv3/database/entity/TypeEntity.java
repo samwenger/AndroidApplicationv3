@@ -1,19 +1,22 @@
 package com.example.androidapplicationv3.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
-@Entity(tableName = "types")
+@Entity(tableName = "types", primaryKeys = "idType")
 public class TypeEntity {
 
-    @PrimaryKey(autoGenerate = true)
+    @NonNull
     private Long idType;
 
+    @NonNull
     private String type;
 
-    public TypeEntity(String type) {
+    public TypeEntity(Long idType, String type) {
+        this.idType=idType;
         this.type = type;
     }
 

@@ -77,8 +77,8 @@ public class LoginActivity extends AppCompatActivity {
                         // We need an Editor object to make preference changes.
                         // All objects are from android.context.Context
 
-                        SharedPreferences.Editor editor = getSharedPreferences(BaseActivity.PREFS_ID,0).edit();
-                        editor.putLong(BaseActivity.PREFS_ID, userEntity.getIdUser());
+                        SharedPreferences.Editor editor = getSharedPreferences(BaseActivity.PREFS_NAME,0).edit();
+                        editor.putLong(BaseActivity.PREFS_IDUSER, userEntity.getIdUser());
                         editor.apply();
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);

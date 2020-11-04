@@ -6,7 +6,7 @@ import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
-@Entity(tableName = "request",
+@Entity(tableName = "requests",
         foreignKeys = {
                 @ForeignKey(
                         entity = UserEntity.class,
@@ -39,12 +39,18 @@ public class RequestEntity {
 
     private Long idType;
 
-    public RequestEntity(Long idUser, Long dateDebut, Long dateFin, Long idStatus, Long idType) {
+    private String remark;
+
+    public RequestEntity(){
+    }
+
+    public RequestEntity(Long idUser, Long dateDebut, Long dateFin, Long idStatus, Long idType, String remark) {
         this.idUser = idUser;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.idStatus = idStatus;
         this.idType = idType;
+        this.remark=remark;
     }
 
     public Long getIdUser() {
@@ -71,6 +77,10 @@ public class RequestEntity {
         return idStatus;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
     public void setIdUser(Long idUser) {
         this.idUser = idUser;
     }
@@ -93,6 +103,10 @@ public class RequestEntity {
 
     public void setIdStatus(Long idStatus) {
         this.idStatus = idStatus;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     @Override

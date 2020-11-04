@@ -21,7 +21,10 @@ import androidx.appcompat.widget.Toolbar;
 
 public class BaseActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
-    public static final String PREFS_ID = "id";
+
+    public static final String PREFS_NAME = "SharedPrefs";
+    public static final String PREFS_IDUSER = "IDUser";
+
 
     protected FrameLayout frameLayout;
     protected DrawerLayout drawerLayout;

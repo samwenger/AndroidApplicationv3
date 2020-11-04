@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.example.androidapplicationv3.database.dao.RequestDao;
+import com.example.androidapplicationv3.database.dao.StatusDao;
+import com.example.androidapplicationv3.database.dao.TypeDao;
 import com.example.androidapplicationv3.database.dao.UserDao;
 import com.example.androidapplicationv3.database.dao.UserRoleDao;
 import com.example.androidapplicationv3.database.entity.RequestEntity;
@@ -37,6 +39,10 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract UserDao userDao();
 
     public abstract UserRoleDao userRoleDao();
+
+    public abstract StatusDao statusDao();
+
+    public abstract TypeDao typesDao();
 
     private final MutableLiveData<Boolean> mIsDatabaseCreated = new MutableLiveData<>();
 
@@ -78,9 +84,9 @@ public abstract class AppDatabase extends RoomDatabase {
         Executors.newSingleThreadExecutor().execute(() -> {
             database.runInTransaction(() -> {
                 Log.i(TAG, "Wipe database.");
-                database.requestDao().deleteAll();
                 database.userDao().deleteAll();
-                database.userRoleDao().deleteAll();
+                database.typesDao().deleteAll();
+                database.statusDao().deleteAll();
 
                 DatabaseInitializer.populateDatabase(database);
             });

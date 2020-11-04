@@ -4,10 +4,9 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
-import java.sql.Date;
 import java.util.Objects;
 
-@Entity(tableName = "request",
+@Entity(tableName = "requests",
         foreignKeys = {
                 @ForeignKey(
                         entity = UserEntity.class,
@@ -16,8 +15,8 @@ import java.util.Objects;
                 ),
                 @ForeignKey(
                         entity = StatusEntity.class,
-                        parentColumns = "idRole",
-                        childColumns = "idRole"
+                        parentColumns = "idStatus",
+                        childColumns = "idStatus"
                 ),
                 @ForeignKey(
                         entity = TypeEntity.class,
@@ -32,20 +31,26 @@ public class RequestEntity {
 
     private Long idUser;
 
-    private Date dateDebut;
+    private Long dateDebut;
 
-    private Date dateFin;
+    private Long dateFin;
 
     private Long idStatus;
 
     private Long idType;
 
-    public RequestEntity(Long idUser, Date dateDebut, Date dateFin, Long idStatus, Long idType) {
+    private String remark;
+
+    public RequestEntity(){
+    }
+
+    public RequestEntity(Long idUser, Long dateDebut, Long dateFin, Long idStatus, Long idType, String remark) {
         this.idUser = idUser;
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.idStatus = idStatus;
         this.idType = idType;
+        this.remark=remark;
     }
 
     public Long getIdUser() {
@@ -56,11 +61,11 @@ public class RequestEntity {
         return idType;
     }
 
-    public Date getDateDebut() {
+    public Long getDateDebut() {
         return dateDebut;
     }
 
-    public Date getDateFin() {
+    public Long getDateFin() {
         return dateFin;
     }
 
@@ -72,6 +77,10 @@ public class RequestEntity {
         return idStatus;
     }
 
+    public String getRemark() {
+        return remark;
+    }
+
     public void setIdUser(Long idUser) {
         this.idUser = idUser;
     }
@@ -80,11 +89,11 @@ public class RequestEntity {
         this.idType = idType;
     }
 
-    public void setDateDebut(Date dateDebut) {
+    public void setDateDebut(Long dateDebut) {
         this.dateDebut = dateDebut;
     }
 
-    public void setDateFin(Date dateFin) {
+    public void setDateFin(Long dateFin) {
         this.dateFin = dateFin;
     }
 
@@ -94,6 +103,10 @@ public class RequestEntity {
 
     public void setIdStatus(Long idStatus) {
         this.idStatus = idStatus;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     @Override

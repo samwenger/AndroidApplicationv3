@@ -17,5 +17,16 @@
     <string name="menu_addrequest">Add a request</string>
     <string name="menu_logout">Logout</string>
 
+    <string name="error_invalid_username">Invalid username</string>
+    <string name="error_unknown_username">Unknown user</string>
+    <string name="error_invalid_password">Invalid password</string>
+    <string name="error_incorrect_password">Incorrect password</string>
+
+    <string name="prompt_username">Username</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_login">Login</string>
+
+    <string name="title_activity_login">Login Screen</string>
+
 
 </resources>

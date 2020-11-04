@@ -16,5 +16,7 @@ public class RequestsActivity extends BaseActivity {
 
         setTitle(getString(R.string.title_activity_requests));
         navigationView.setCheckedItem(position);
+
+
     }
 }

@@ -4,6 +4,7 @@
     <string name="title_activity_main">Overview</string>
     <string name="title_activity_addrequest">Add a request</string>
     <string name="title_activity_requests">My requests</string>
+    <string name="title_activity_detailsrequest">My requests</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -22,11 +23,22 @@
     <string name="error_invalid_password">Invalid password</string>
     <string name="error_incorrect_password">Incorrect password</string>
 
+    <string name="request_edited">Request has been edited.</string>
+    <string name="request_edited_error">An error has occured. Please retry.</string>
+
+
     <string name="prompt_username">Username</string>
     <string name="prompt_password">Password</string>
     <string name="action_login">Login</string>
 
     <string name="title_activity_login">Login Screen</string>
+
+    <string name="action_edit">EDIT</string>
+    <string name="action_delete">DELETE</string>
+    <string name="action_cancel">CANCEL</string>
+    <string name="delete_msg">Do you really want to delete this request ?</string>
+
+
 
 
 </resources>

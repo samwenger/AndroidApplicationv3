@@ -4,6 +4,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import com.example.androidapplicationv3.database.converters.Converters;
+
 import java.util.Objects;
 
 @Entity(tableName = "requests",
@@ -120,5 +122,11 @@ public class RequestEntity {
     @Override
     public int hashCode() {
         return Objects.hash(idRequest);
+    }
+
+    @Override
+    public String toString() {
+        return dateDebut + " - " + dateFin;
+
     }
 }

@@ -11,6 +11,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.database.entity.RequestEntity;
+import com.example.androidapplicationv3.database.pojo.RequestWithType;
 import com.example.androidapplicationv3.database.repository.RequestRepository;
 
 import java.util.List;
@@ -21,7 +22,7 @@ public class RequestListViewModel extends AndroidViewModel {
 
     private RequestRepository requestRepository;
 
-    private final MediatorLiveData<List<RequestEntity>> observableRequests;
+    private final MediatorLiveData<List<RequestWithType>> observableRequests;
 
     public RequestListViewModel(@NonNull Application application,
                                 final Long idUser,
@@ -35,7 +36,7 @@ public class RequestListViewModel extends AndroidViewModel {
         observableRequests = new MediatorLiveData<>();
         observableRequests.setValue(null);
 
-        LiveData<List<RequestEntity>> requests = this.requestRepository.getRequestByUser(idUser,application);
+        LiveData<List<RequestWithType>> requests = this.requestRepository.getRequestByUserWithInfos(idUser,application);
 
         observableRequests.addSource(requests, observableRequests::setValue);
     }
@@ -68,7 +69,7 @@ public class RequestListViewModel extends AndroidViewModel {
     /**
      * Expose the LiveData ClientAccounts query so the UI can observe it.
      */
-    public LiveData<List<RequestEntity>> getRequestByUser() {
+    public LiveData<List<RequestWithType>> getRequestsByUser() {
         return observableRequests;
     }
 }

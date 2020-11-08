@@ -6,8 +6,11 @@ import androidx.lifecycle.LiveData;
 
 import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.database.async.requests.AddRequest;
+import com.example.androidapplicationv3.database.async.requests.DeleteRequest;
+import com.example.androidapplicationv3.database.async.requests.UpdateRequest;
 import com.example.androidapplicationv3.database.entity.RequestEntity;
 import com.example.androidapplicationv3.database.entity.UserEntity;
+import com.example.androidapplicationv3.database.pojo.RequestWithType;
 import com.example.androidapplicationv3.util.OnAsyncEventListener;
 
 import java.util.List;
@@ -39,7 +42,25 @@ public class RequestRepository {
         return ((BaseApp) application).getDatabase().requestDao().getById(id);
     }
 
+    public LiveData<RequestWithType> getRequestWithInfos(final Long id, Application application) {
+        return ((BaseApp) application).getDatabase().requestDao().getWithInfos(id);
+    }
+
     public LiveData<List<RequestEntity>> getRequestByUser(final Long id, Application application) {
         return ((BaseApp) application).getDatabase().requestDao().getByIdUser(id);
+    }
+
+    public LiveData<List<RequestWithType>> getRequestByUserWithInfos(final Long id, Application application) {
+        return ((BaseApp) application).getDatabase().requestDao().getByIdUserWithInfos(id);
+    }
+
+    public void update(final RequestEntity request, OnAsyncEventListener callback,
+                       Application application) {
+        new UpdateRequest(application, callback).execute(request);
+    }
+
+    public void delete(final RequestEntity request, OnAsyncEventListener callback,
+                       Application application) {
+        new DeleteRequest(application, callback).execute(request);
     }
 }

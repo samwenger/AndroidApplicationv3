@@ -1,16 +1,12 @@
 package com.example.androidapplicationv3.ui.request;
 
-import androidx.core.view.GravityCompat;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
-import android.widget.TextView;
 
 import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.R;
@@ -59,19 +55,19 @@ public class AddRequestActivity extends BaseActivity {
 
         radioButtonGroup = findViewById(R.id.radioButtonGroupAddRequest);
         radioButton1 = findViewById(R.id.radioButtonVacationAddRequest);
-        radioButton2 = findViewById(R.id.radioButtonVacationAddRequest);
-        radioButton3 = findViewById(R.id.radioButtonVacationAddRequest);
-        radioButton4 = findViewById(R.id.radioButtonVacationAddRequest);
+        radioButton2 = findViewById(R.id.radioButtonSpecialLeaveAddRequest);
+        radioButton3 = findViewById(R.id.radioButtonOvertimeAddRequest);
+        radioButton4 = findViewById(R.id.radioButtonWithoutPayAddRequest);
 
 
-        startDate = findViewById(R.id.startDateAddRequest);
-        endDate = findViewById(R.id.endDateAddRequest);
-        remarks = findViewById(R.id.remarksAddRequest);
+        startDate = findViewById(R.id.inputDateStart);
+        endDate = findViewById(R.id.inputDateEnd);
+        remarks = findViewById(R.id.inputRemarks);
 
         SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
         idUser = settings.getLong(BaseActivity.PREFS_IDUSER, 0);
 
-        Button button = findViewById(R.id.buttonAddRequest);
+        Button button = findViewById(R.id.buttonDeleteRequest);
         button.setOnClickListener(view -> {
             try {
                 addRequest();
@@ -94,6 +90,8 @@ public class AddRequestActivity extends BaseActivity {
 
         newRequest.setDateDebut(converters.dateToTimestamp(dateDebut));
         newRequest.setDateFin(converters.dateToTimestamp(dateFin));
+       // newRequest.setDateDebut(dateDebut);
+       // newRequest.setDateFin(dateFin);
         newRequest.setRemark(remarks.getText().toString());
         newRequest.setIdStatus(new Long(1));
 

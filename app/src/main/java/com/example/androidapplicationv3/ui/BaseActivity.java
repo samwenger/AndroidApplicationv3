@@ -1,12 +1,15 @@
 package com.example.androidapplicationv3.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceActivity;
 import android.view.MenuItem;
 import android.view.Menu;
 import android.widget.FrameLayout;
 
 import com.example.androidapplicationv3.R;
+import com.example.androidapplicationv3.ui.admin.RequestsAdminActivity;
 import com.example.androidapplicationv3.ui.request.AddRequestActivity;
 import com.example.androidapplicationv3.ui.request.RequestsActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -24,6 +27,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     public static final String PREFS_NAME = "SharedPrefs";
     public static final String PREFS_IDUSER = "IDUser";
+    public static final String PREFS_ISADMIN = "ISAdmin";
 
 
     protected FrameLayout frameLayout;
@@ -43,6 +47,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         frameLayout = findViewById(R.id.flContent);
         drawerLayout = findViewById(R.id.drawer_layout);
 
+
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
@@ -50,6 +55,14 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
+        Boolean isAdmin = settings.getBoolean(BaseActivity.PREFS_ISADMIN, false);
+
+        if (isAdmin) {
+            navigationView.getMenu().findItem(R.id.nav_adminrequests).setVisible(true);
+            navigationView.getMenu().findItem(R.id.nav_registeruser).setVisible(true);
+        }
 
     }
 
@@ -64,9 +77,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(item.getItemId() == R.id.action_settings) {
-            Intent intent = new Intent(this, MainActivity.class); // changer activité !!
+            Intent intent = new Intent(this, PreferenceActivity.class);
+            startActivity(intent);
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -97,6 +110,12 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_logout:
                 logout();
+                break;
+            case R.id.nav_adminrequests:
+                intent = new Intent(this, RequestsAdminActivity.class);
+                break;
+            case R.id.nav_registeruser:
+                intent = new Intent(this, RequestsAdminActivity.class);
                 break;
         }
         if (intent != null) {

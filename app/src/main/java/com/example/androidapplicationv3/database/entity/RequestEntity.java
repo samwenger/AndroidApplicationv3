@@ -1,5 +1,6 @@
 package com.example.androidapplicationv3.database.entity;
 
+import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
@@ -26,7 +27,7 @@ import java.util.Objects;
                         childColumns = "idType"
                 )}
 )
-public class RequestEntity {
+public class RequestEntity implements Comparable {
 
     @PrimaryKey(autoGenerate = true)
     private Long idRequest;
@@ -119,14 +120,21 @@ public class RequestEntity {
         return Objects.equals(idRequest, that.idRequest);
     }
 
+
     @Override
     public int hashCode() {
         return Objects.hash(idRequest);
     }
 
+
     @Override
     public String toString() {
-        return dateDebut + " - " + dateFin;
-
+        return remark.toString();
     }
+
+    @Override
+    public int compareTo(@NonNull Object o) {
+        return toString().compareTo(o.toString());
+    }
+
 }

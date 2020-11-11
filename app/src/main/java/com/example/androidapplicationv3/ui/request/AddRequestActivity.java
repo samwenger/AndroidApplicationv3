@@ -1,12 +1,17 @@
 package com.example.androidapplicationv3.ui.request;
 
+import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.R;
@@ -20,12 +25,16 @@ import com.example.androidapplicationv3.viewmodel.RequestViewModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 
-public class AddRequestActivity extends BaseActivity {
+public class AddRequestActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener {
 
     private static final String TAG = "AddRequestActivity";
+    private static String SELECTED;
 
     private Converters converters = new Converters();
     private RequestViewModel viewModel;
@@ -37,8 +46,8 @@ public class AddRequestActivity extends BaseActivity {
     private RadioButton radioButton3;
     private RadioButton radioButton4;
 
-    private EditText startDate;
-    private EditText endDate;
+    private TextView startDate;
+    private TextView endDate;
     private EditText remarks;
     private Long idUser;
 
@@ -64,13 +73,32 @@ public class AddRequestActivity extends BaseActivity {
         endDate = findViewById(R.id.inputDateEnd);
         remarks = findViewById(R.id.inputRemarks);
 
+
+        startDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SELECTED = "STARTDATE";
+                showDatePicketDialog();
+
+            }
+        });
+
+        endDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                SELECTED = "ENDDATE";
+                showDatePicketDialog();
+            }
+        });
+
         SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
         idUser = settings.getLong(BaseActivity.PREFS_IDUSER, 0);
 
         Button button = findViewById(R.id.buttonDeleteRequest);
         button.setOnClickListener(view -> {
             try {
-                addRequest();
+                if(addRequest())
+                    onBackPressed();
             } catch (ParseException e) {
                 e.printStackTrace();
             }
@@ -79,22 +107,8 @@ public class AddRequestActivity extends BaseActivity {
     }
 
 
-    private void addRequest() throws ParseException {
 
-        RequestEntity newRequest = new RequestEntity();
-        newRequest.setIdUser(idUser);
-
-
-        Date dateDebut = new SimpleDateFormat("dd/MM/yyyy").parse(startDate.getText().toString());
-        Date dateFin = new SimpleDateFormat("dd/MM/yyyy").parse(endDate.getText().toString());
-
-        newRequest.setDateDebut(converters.dateToTimestamp(dateDebut));
-        newRequest.setDateFin(converters.dateToTimestamp(dateFin));
-       // newRequest.setDateDebut(dateDebut);
-       // newRequest.setDateFin(dateFin);
-        newRequest.setRemark(remarks.getText().toString());
-        newRequest.setIdStatus(new Long(1));
-
+    private boolean addRequest() throws ParseException {
 
         int selectedId = radioButtonGroup.getCheckedRadioButtonId();
         Long typeId = null;
@@ -107,9 +121,44 @@ public class AddRequestActivity extends BaseActivity {
             typeId = new Long(3);
         } else if (selectedId == radioButton4.getId()) {
             typeId = new Long(4);
+        } else {
+            Toast.makeText(this, getString(R.string.addrequest_notype), Toast.LENGTH_LONG).show();
+            return false;
         }
-        newRequest.setIdType(typeId);
 
+
+        Pattern datePattern = Pattern.compile("^([0-2]?[0-9]|(3)[0-1])(\\/)(((0)[0-9])|((1)[0-2]))(\\/)\\d{4}$");
+
+        Matcher matcherStartDate = datePattern.matcher(startDate.getText().toString());
+        boolean startDateMatching = matcherStartDate.matches();
+
+        Matcher matcherEndDate = datePattern.matcher(endDate.getText().toString());
+        boolean endDateMatching = matcherEndDate.matches();
+
+        if (!startDateMatching){
+            Toast.makeText(this, getString(R.string.addrequest_nostartdate), Toast.LENGTH_LONG).show();
+            return false;
+        } else if (!endDateMatching) {
+            Toast.makeText(this, getString(R.string.addrequest_noenddate), Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        Date dateDebut = new SimpleDateFormat("dd/MM/yyyy").parse(startDate.getText().toString());
+        Date dateFin = new SimpleDateFormat("dd/MM/yyyy").parse(endDate.getText().toString());
+
+        if(daysBetween(dateDebut, dateFin) < 0){
+            Toast.makeText(this, getString(R.string.addrequest_enddatetoosmall), Toast.LENGTH_LONG).show();
+            return false;
+        }
+
+        RequestEntity newRequest = new RequestEntity();
+        newRequest.setIdUser(idUser);
+
+        newRequest.setDateDebut(converters.dateToTimestamp(dateDebut));
+        newRequest.setDateFin(converters.dateToTimestamp(dateFin));
+        newRequest.setRemark(remarks.getText().toString());
+        newRequest.setIdStatus(new Long(1));
+        newRequest.setIdType(typeId);
 
 
         new AddRequest(getApplication(), new OnAsyncEventListener() {
@@ -124,18 +173,32 @@ public class AddRequestActivity extends BaseActivity {
             }
         }).execute(newRequest);
 
-        /*
-        viewModel.addRequest(newRequest, new OnAsyncEventListener() {
-            @Override
-            public void onSuccess() {
-                Log.d(TAG, "AddRequest: success");
-            }
+        return true;
 
-            @Override
-            public void onFailure(Exception e) {
-                Log.d(TAG, "AddRequest: failure", e);
-            }
-        });*/
+    }
+
+    private void showDatePicketDialog(){
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this, this,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String date = dayOfMonth + "/" + (month+1) + "/" + year;
+
+        if (SELECTED == "STARTDATE")
+            startDate.setText(date);
+        else if (SELECTED == "ENDDATE")
+            endDate.setText(date);
+    }
+
+    public int daysBetween(Date d1, Date d2) {
+        return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
     }
 
 }

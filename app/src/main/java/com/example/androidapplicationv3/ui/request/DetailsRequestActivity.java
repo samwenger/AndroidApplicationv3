@@ -4,10 +4,12 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,19 +25,23 @@ import com.example.androidapplicationv3.viewmodel.RequestViewModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-public class DetailsRequestActivity extends BaseActivity {
+public class DetailsRequestActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener {
 
     private static final int EDIT_CLIENT = 1;
     private static final int DELETE_CLIENT = 2;
+    private static String SELECTED;
 
     private boolean isEditable;
 
     private TextView inputType;
     private TextView inputStatus;
-    private EditText inputDateStart;
-    private EditText inputDateEnd;
+    private TextView inputDateStart;
+    private TextView inputDateEnd;
     private EditText inputRemarks;
 
     private RequestViewModel viewModel;
@@ -54,6 +60,27 @@ public class DetailsRequestActivity extends BaseActivity {
         initiateView();
 
         Long requestId = getIntent().getLongExtra("requestId", 0);
+
+
+        inputDateStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isEditable) {
+                    SELECTED = "STARTDATE";
+                    showDatePicketDialog();
+                }
+            }
+        });
+
+        inputDateEnd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isEditable) {
+                    SELECTED = "ENDDATE";
+                    showDatePicketDialog();
+                }
+            }
+        });
 
         RequestViewModel.Factory factory = new RequestViewModel.Factory(getApplication(), requestId);
         viewModel = ViewModelProviders.of(this, factory).get(RequestViewModel.class);
@@ -91,54 +118,32 @@ public class DetailsRequestActivity extends BaseActivity {
 
     private void switchEditableMode() throws ParseException {
         if (!isEditable) {
-            inputDateStart.setFocusable(true);
-            inputDateStart.setEnabled(true);
-            inputDateStart.setFocusableInTouchMode(true);
-
-            inputDateEnd.setFocusable(true);
-            inputDateEnd.setEnabled(true);
-            inputDateEnd.setFocusableInTouchMode(true);
-
             inputRemarks.setFocusable(true);
             inputRemarks.setEnabled(true);
             inputRemarks.setFocusableInTouchMode(true);
-            inputDateStart.requestFocus();
+            isEditable = true;
 
         } else {
-            saveChanges(
+            if(saveChanges(
                     inputDateStart.getText().toString(),
                     inputDateEnd.getText().toString(),
                     inputRemarks.getText().toString()
-            );
-
-            inputDateStart.setFocusable(false);
-            inputDateStart.setEnabled(false);
-            inputDateEnd.setFocusable(false);
-            inputDateEnd.setEnabled(false);
-            inputRemarks.setFocusable(false);
-            inputRemarks.setEnabled(false);
+            )){
+                inputRemarks.setFocusable(false);
+                inputRemarks.setEnabled(false);
+                isEditable = false;
+            }
         }
-        isEditable = !isEditable;
+
     }
 
 
-    private void saveChanges(String dateStart, String dateEnd, String remark) throws ParseException {
-       /* if (!pwd.equals(pwd2) || pwd.length() < 5) {
-            toast = Toast.makeText(this, getString(R.string.error_edit_invalid_password), Toast.LENGTH_LONG);
-            toast.show();
-            return;
-        }*/
-        /*if (!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
-            etEmail.setError(getString(R.string.error_invalid_email));
-            etEmail.requestFocus();
-            return;
-        }*/
-
-
-        Converters converters = new Converters();
+    private boolean saveChanges(String dateStart, String dateEnd, String remark) throws ParseException {
 
         Date dateDebut = new SimpleDateFormat("dd/MM/yyyy").parse(dateStart);
         Date dateFin = new SimpleDateFormat("dd/MM/yyyy").parse(dateEnd);
+
+        Converters converters = new Converters();
 
         request.request.setDateDebut(converters.dateToTimestamp(dateDebut));
         request.request.setDateFin(converters.dateToTimestamp(dateFin));
@@ -149,6 +154,7 @@ public class DetailsRequestActivity extends BaseActivity {
             @Override
             public void onSuccess() {
                 setResponse(true);
+                onBackPressed();
             }
 
             @Override
@@ -156,7 +162,9 @@ public class DetailsRequestActivity extends BaseActivity {
                 setResponse(false);
             }
         });
+        return true;
     }
+
 
     private void setResponse(Boolean response) {
         if (response) {
@@ -185,9 +193,11 @@ public class DetailsRequestActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == EDIT_CLIENT) {
             if (isEditable) {
-                item.setIcon(R.drawable.ic_baseline_edit_24);
                 try {
-                    switchEditableMode();
+                    if(checkDatesInput()){
+                        item.setIcon(R.drawable.ic_baseline_edit_24);
+                        switchEditableMode();
+                    }
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
@@ -220,6 +230,41 @@ public class DetailsRequestActivity extends BaseActivity {
             alertDialog.show();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showDatePicketDialog(){
+        DatePickerDialog datePickerDialog = new DatePickerDialog(
+                this, this,
+                Calendar.getInstance().get(Calendar.YEAR),
+                Calendar.getInstance().get(Calendar.MONTH),
+                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
+        );
+        datePickerDialog.show();
+    }
+
+    @Override
+    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+        String date = dayOfMonth + "/" + (month+1) + "/" + year;
+
+        if (SELECTED == "STARTDATE")
+            inputDateStart.setText(date);
+        else if (SELECTED == "ENDDATE")
+            inputDateEnd.setText(date);
+    }
+
+    public boolean checkDatesInput() throws ParseException {
+        Date dateDebut = new SimpleDateFormat("dd/MM/yyyy").parse(inputDateStart.getText().toString());
+        Date dateFin = new SimpleDateFormat("dd/MM/yyyy").parse(inputDateEnd.getText().toString());
+
+        if(daysBetween(dateDebut, dateFin) < 0){
+            Toast.makeText(this, getString(R.string.addrequest_enddatetoosmall), Toast.LENGTH_LONG).show();
+            return false;
+        }
+        return true;
+    }
+
+    public int daysBetween(Date d1, Date d2) {
+        return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
     }
 
 

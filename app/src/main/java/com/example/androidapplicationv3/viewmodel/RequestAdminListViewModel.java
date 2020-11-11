@@ -12,20 +12,21 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.database.entity.RequestEntity;
 import com.example.androidapplicationv3.database.pojo.RequestWithType;
+import com.example.androidapplicationv3.database.pojo.RequestWithUser;
 import com.example.androidapplicationv3.database.repository.RequestRepository;
 
 import java.util.List;
 
-public class RequestListViewModel extends AndroidViewModel {
+public class RequestAdminListViewModel extends AndroidViewModel {
 
     private Application application;
 
     private RequestRepository requestRepository;
 
-    private final MediatorLiveData<List<RequestWithType>> observableRequests;
+    private final MediatorLiveData<List<RequestWithUser>> observableRequests;
 
-    public RequestListViewModel(@NonNull Application application,
-                                final Long idUser,
+    public RequestAdminListViewModel(@NonNull Application application,
+                                final Long idStatus,
                                 RequestRepository requestRepository) {
         super(application);
 
@@ -36,7 +37,7 @@ public class RequestListViewModel extends AndroidViewModel {
         observableRequests = new MediatorLiveData<>();
         observableRequests.setValue(null);
 
-        LiveData<List<RequestWithType>> requests = this.requestRepository.getRequestByUserWithInfos(idUser,application);
+        LiveData<List<RequestWithUser>> requests = this.requestRepository.getRequestByStatus(idStatus,application);
 
         observableRequests.addSource(requests, observableRequests::setValue);
     }
@@ -49,13 +50,13 @@ public class RequestListViewModel extends AndroidViewModel {
         @NonNull
         private final Application application;
 
-        private final Long userId;
+        private final Long idStatus;
 
         private final RequestRepository requestRepository;
 
-        public Factory(@NonNull Application application, Long userId) {
+        public Factory(@NonNull Application application, Long idStatus) {
             this.application = application;
-            this.userId = userId;
+            this.idStatus = idStatus;
             requestRepository = ((BaseApp) application).getRequestRepository();
         }
 
@@ -63,14 +64,14 @@ public class RequestListViewModel extends AndroidViewModel {
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new RequestListViewModel(application, userId, requestRepository);
+            return (T) new RequestAdminListViewModel(application, idStatus, requestRepository);
         }
     }
 
     /**
      * Expose the LiveData ClientAccounts query so the UI can observe it.
      */
-    public LiveData<List<RequestWithType>> getRequestsWithInfosByUser() {
+    public LiveData<List<RequestWithUser>> getRequestByStatus() {
         return observableRequests;
     }
 

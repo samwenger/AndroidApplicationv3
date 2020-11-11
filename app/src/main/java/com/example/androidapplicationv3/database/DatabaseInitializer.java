@@ -26,8 +26,8 @@ public class DatabaseInitializer {
     }
 
     private static void addUser(final AppDatabase db, final String lastname,
-                                  final String firstname, final String login, final String password, Date birthday, int remainingDays) {
-        UserEntity user = new UserEntity(lastname, firstname, login, password, converters.dateToTimestamp(birthday), remainingDays);
+                                  final String firstname, final String login, final String password, Date birthday, int remainingDays,  Boolean isAdmin) {
+        UserEntity user = new UserEntity(lastname, firstname, login, password, converters.dateToTimestamp(birthday), remainingDays, isAdmin);
         db.userDao().insert(user);
     }
 
@@ -48,11 +48,11 @@ public class DatabaseInitializer {
         db.statusDao().deleteAll();
 
         addUser(db,
-                "Gallay", "Robin", "robin.gallay", "AdminHevs01", new Date(1998,02,21),25
+                "Gallay", "Robin", "robin.gallay", "AdminHevs01", new Date(1998,02,21),25, false
         );
 
         addUser(db,
-                "Wenger", "Samuel", "samuel.wenger", "AdminHevs01", new Date(1997,10,05),10
+                "Wenger", "Samuel", "samuel.wenger", "AdminHevs01", new Date(1997,10,05),10, true
         );
 
         addType(db,new Long(1),"Vacation");

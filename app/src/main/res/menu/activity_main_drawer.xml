@@ -6,19 +6,33 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
-            android:icon="@drawable/ic_menu_camera"
-            android:title="@string/menu_home" />
+            android:icon="@drawable/ic_baseline_calendar_today_24"
+            android:title="@string/menu_home"
+            android:visible="true"/>
         <item
             android:id="@+id/nav_requests"
-            android:icon="@drawable/ic_menu_gallery"
-            android:title="@string/menu_requests" />
+            android:icon="@drawable/ic_baseline_view_list_24"
+            android:title="@string/menu_requests"
+            android:visible="true"/>
+        <item
+            android:id="@+id/nav_adminrequests"
+            android:icon="@drawable/ic_baseline_view_list_24"
+            android:title="@string/title_activity_adminrequests"
+            android:visible="false"/>
+        <item
+            android:id="@+id/nav_registeruser"
+            android:icon="@drawable/ic_baseline_view_list_24"
+            android:title="Register a new user"
+            android:visible="false"/>
         <item
             android:id="@+id/nav_addrequest"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_addrequest" />
+            android:icon="@drawable/ic_baseline_add_circle_24"
+            android:title="@string/menu_addrequest"
+            android:visible="true"/>
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="@string/menu_logout" />
+            android:icon="@drawable/ic_baseline_lock_24"
+            android:title="@string/menu_logout"
+            android:visible="true"/>
     </group>
 </menu>

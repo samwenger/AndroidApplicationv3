@@ -25,14 +25,17 @@ public class UserEntity {
 
     private int remainingDays;
 
+    private boolean isAdmin;
 
-    public UserEntity(String lastname, String firstname, String login, String password, Long birthday, int remainingDays){
+
+    public UserEntity(String lastname, String firstname, String login, String password, Long birthday, int remainingDays, Boolean isAdmin){
         this.lastname = lastname;
         this.firstname = firstname;
         this.login = login;
         this.password = password;
         this.birthday = birthday;
         this.remainingDays = remainingDays;
+        this.isAdmin = isAdmin;
     }
 
 
@@ -62,6 +65,10 @@ public class UserEntity {
 
     public int getRemainingDays() {
         return remainingDays;
+    }
+
+    public boolean getIsAdmin() {
+        return isAdmin;
     }
 
     public void setIdUser(Long idUser) {

@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider;
 import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.database.entity.RequestEntity;
 import com.example.androidapplicationv3.database.pojo.RequestWithType;
+import com.example.androidapplicationv3.database.pojo.RequestWithUser;
 import com.example.androidapplicationv3.database.repository.RequestRepository;
 import com.example.androidapplicationv3.util.OnAsyncEventListener;
 
@@ -25,7 +26,7 @@ public class RequestViewModel extends AndroidViewModel {
     private Application application;
 
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
-    private final MediatorLiveData<RequestWithType> observableRequest;
+    private final MediatorLiveData<RequestWithUser> observableRequest;
 
     public RequestViewModel(@NonNull Application application,
                            final Long idRequest, RequestRepository requestRepository) {
@@ -39,7 +40,7 @@ public class RequestViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         observableRequest.setValue(null);
 
-        LiveData<RequestWithType> request = requestRepository.getRequestWithInfos(idRequest, application);
+        LiveData<RequestWithUser> request = requestRepository.getRequestWithInfos(idRequest, application);
 
         // observe the changes of the client entity from the database and forward them
         observableRequest.addSource(request, observableRequest::setValue);
@@ -67,7 +68,7 @@ public class RequestViewModel extends AndroidViewModel {
         }
     }
 
-    public LiveData<RequestWithType> getRequest() {
+    public LiveData<RequestWithUser> getRequest() {
         return observableRequest;
     }
 

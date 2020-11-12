@@ -1,44 +1,42 @@
 package com.example.androidapplicationv3.ui.admin;
 
 
-import android.app.DatePickerDialog;
+
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.appcompat.app.AlertDialog;
+
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.androidapplicationv3.R;
-import com.example.androidapplicationv3.database.converters.Converters;
+
 import com.example.androidapplicationv3.database.pojo.RequestWithType;
+import com.example.androidapplicationv3.database.pojo.RequestWithUser;
 import com.example.androidapplicationv3.ui.BaseActivity;
 import com.example.androidapplicationv3.util.OnAsyncEventListener;
 import com.example.androidapplicationv3.viewmodel.RequestViewModel;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
 
 public class DetailsRequestAdminActivity extends BaseActivity {
 
+    private TextView inputUser;
     private TextView inputType;
     private TextView inputStatus;
     private TextView inputDateStart;
     private TextView inputDateEnd;
-    private EditText inputRemarks;
+    private TextView inputRemarks;
+    private ImageButton buttonAccept;
+    private ImageButton buttonDeny;
 
     private RequestViewModel viewModel;
-    private RequestWithType request;
+    private RequestWithUser request;
 
     private Toast toast;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +47,22 @@ public class DetailsRequestAdminActivity extends BaseActivity {
 
         initiateView();
 
-        Long requestId = getIntent().getLongExtra("requestId", 0);
+        buttonAccept.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveStatus(new Long(2));
 
+            }
+        });
+
+        buttonDeny.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                saveStatus(new Long(3));
+            }
+        });
+
+        Long requestId = getIntent().getLongExtra("requestId", 0);
 
         RequestViewModel.Factory factory = new RequestViewModel.Factory(getApplication(), requestId);
         viewModel = ViewModelProviders.of(this, factory).get(RequestViewModel.class);
@@ -63,12 +75,34 @@ public class DetailsRequestAdminActivity extends BaseActivity {
 
     }
 
+    private boolean saveStatus(Long id){
+
+        request.request.setIdStatus(id);
+
+        viewModel.updateRequest(request.request, new OnAsyncEventListener() {
+            @Override
+            public void onSuccess() {
+                setResponse(true);
+                onBackPressed();
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                setResponse(false);
+            }
+        });
+        return true;
+    }
+
     private void initiateView() {
-        inputType = findViewById(R.id.inputType);
-        inputStatus = findViewById(R.id.inputStatus);
-        inputDateStart = findViewById(R.id.inputDateStart);
-        inputDateEnd = findViewById(R.id.inputDateEnd);
-        inputRemarks = findViewById(R.id.inputRemarks);
+        inputUser = findViewById(R.id.adminInputUser);
+        inputType = findViewById(R.id.adminInputType);
+        inputStatus = findViewById(R.id.adminInputStatus);
+        inputDateStart = findViewById(R.id.adminInputDateStart);
+        inputDateEnd = findViewById(R.id.adminInputDateEnd);
+        inputRemarks = findViewById(R.id.adminInputRemarks);
+        buttonAccept = findViewById(R.id.button_accept);
+        buttonDeny = findViewById(R.id.button_deny);
     }
 
     private void updateContent() {
@@ -77,11 +111,22 @@ public class DetailsRequestAdminActivity extends BaseActivity {
             String dateDebut = new SimpleDateFormat("dd/MM/yyyy").format(request.request.getDateDebut());
             String dateFin = new SimpleDateFormat("dd/MM/yyyy").format(request.request.getDateFin());
 
+            inputUser.setText(request.user.getFirstname()+" "+request.user.getLastname());
             inputType.setText(request.type.getType());
             inputStatus.setText(request.status.getStatus());
             inputDateStart.setText(dateDebut);
             inputDateEnd.setText(dateFin);
             inputRemarks.setText(request.request.getRemark());
+        }
+    }
+
+    private void setResponse(Boolean response) {
+        if (response) {
+            updateContent();
+            toast = Toast.makeText(this, getString(R.string.request_edited), Toast.LENGTH_LONG);
+            toast.show();
+        } else {
+            toast = Toast.makeText(this, getString(R.string.request_edited_error), Toast.LENGTH_LONG);
         }
     }
 

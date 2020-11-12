@@ -93,13 +93,13 @@ public class MainActivity extends BaseActivity {
                         else if (idStatut == 2){
                             Long idType = request.request.getIdType();
                             if(idType == 1){
-                                color = Color.argb(0,40,154,44);
+                                color = Color.GREEN;
                             } else if(idType == 2){
-                                color = Color.argb(0,255,152,0);
-                            } else if(idType == 2){
-                                color = Color.argb(0,156,39,176);
+                                color = Color.YELLOW;
+                            } else if(idType == 3){
+                                color = Color.MAGENTA;
                             } else {
-                                color = Color.argb(0,211,20,20);
+                                color = Color.RED;
                             }
                         }
 

@@ -28,7 +28,7 @@ public interface RequestDao {
     LiveData<List<RequestEntity>> getByIdUser(Long id);
 
     @Query("SELECT * FROM requests WHERE idRequest = :id")
-    LiveData<RequestWithType> getWithInfos(Long id);
+    LiveData<RequestWithUser> getWithInfos(Long id);
 
     @Query("SELECT * FROM requests WHERE idUser = :id ORDER BY dateDebut")
     LiveData<List<RequestWithType>> getByIdUserWithInfos(Long id);

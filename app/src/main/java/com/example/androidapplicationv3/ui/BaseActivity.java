@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.widget.FrameLayout;
 
 import com.example.androidapplicationv3.R;
+import com.example.androidapplicationv3.ui.admin.RegisterUserActivity;
 import com.example.androidapplicationv3.ui.admin.RequestsAdminActivity;
 import com.example.androidapplicationv3.ui.request.AddRequestActivity;
 import com.example.androidapplicationv3.ui.request.RequestsActivity;
@@ -115,7 +116,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 intent = new Intent(this, RequestsAdminActivity.class);
                 break;
             case R.id.nav_registeruser:
-                intent = new Intent(this, RequestsAdminActivity.class);
+                intent = new Intent(this, RegisterUserActivity.class);
                 break;
         }
         if (intent != null) {

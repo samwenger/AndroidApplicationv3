@@ -15,16 +15,6 @@
             android:title="@string/menu_requests"
             android:visible="true"/>
         <item
-            android:id="@+id/nav_adminrequests"
-            android:icon="@drawable/ic_baseline_view_list_24"
-            android:title="@string/title_activity_adminrequests"
-            android:visible="false"/>
-        <item
-            android:id="@+id/nav_registeruser"
-            android:icon="@drawable/ic_baseline_view_list_24"
-            android:title="Register a new user"
-            android:visible="false"/>
-        <item
             android:id="@+id/nav_addrequest"
             android:icon="@drawable/ic_baseline_add_circle_24"
             android:title="@string/menu_addrequest"
@@ -34,5 +24,15 @@
             android:icon="@drawable/ic_baseline_lock_24"
             android:title="@string/menu_logout"
             android:visible="true"/>
+        <item
+            android:id="@+id/nav_adminrequests"
+            android:icon="@drawable/ic_baseline_view_list_24"
+            android:title="@string/title_activity_adminrequests"
+            android:visible="false"/>
+        <item
+            android:id="@+id/nav_registeruser"
+            android:icon="@drawable/ic_baseline_person_add_24"
+            android:title="Register a new user"
+            android:visible="false"/>
     </group>
 </menu>

@@ -10,8 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.admin.DetailsRequestAdminActivity">
-            android:name=".ui.admin.RequestsAdminActivity"
+        <activity android:name=".ui.admin.RegisterUserActivity"></activity>
+        <activity
+            android:name=".ui.admin.DetailsRequestAdminActivity"
             android:label="@string/title_activity_requests"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
@@ -19,7 +20,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.admin.RequestsAdminActivity"
             android:label="@string/title_activity_requests"
@@ -29,7 +29,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.request.DetailsRequestActivity"
             android:label="@string/title_activity_detailsrequest"

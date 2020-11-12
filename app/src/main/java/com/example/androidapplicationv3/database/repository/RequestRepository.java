@@ -43,7 +43,7 @@ public class RequestRepository {
         return ((BaseApp) application).getDatabase().requestDao().getById(id);
     }
 
-    public LiveData<RequestWithType> getRequestWithInfos(final Long id, Application application) {
+    public LiveData<RequestWithUser> getRequestWithInfos(final Long id, Application application) {
         return ((BaseApp) application).getDatabase().requestDao().getWithInfos(id);
     }
 

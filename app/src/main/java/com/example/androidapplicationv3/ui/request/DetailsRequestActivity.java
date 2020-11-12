@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.example.androidapplicationv3.R;
 import com.example.androidapplicationv3.database.converters.Converters;
 import com.example.androidapplicationv3.database.pojo.RequestWithType;
+import com.example.androidapplicationv3.database.pojo.RequestWithUser;
 import com.example.androidapplicationv3.ui.BaseActivity;
 import com.example.androidapplicationv3.ui.MainActivity;
 import com.example.androidapplicationv3.util.OnAsyncEventListener;
@@ -45,7 +46,7 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
     private EditText inputRemarks;
 
     private RequestViewModel viewModel;
-    private RequestWithType request;
+    private RequestWithUser request;
 
     private Toast toast;
 

@@ -2,12 +2,13 @@ package com.example.androidapplicationv3.database.entity;
 
 import androidx.room.Entity;
 
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
 
-@Entity(tableName = "users")
+@Entity(tableName = "users", indices = {@Index(value = "login", unique = true)})
 public class UserEntity {
 
     @PrimaryKey(autoGenerate = true)
@@ -25,6 +26,10 @@ public class UserEntity {
 
     private boolean isAdmin;
 
+
+    public UserEntity() {
+
+    }
 
     public UserEntity(String lastname, String firstname, String login, String password, int remainingDays, Boolean isAdmin){
         this.lastname = lastname;
@@ -86,6 +91,10 @@ public class UserEntity {
 
     public void setRemainingDays(int remainingDays) {
         this.remainingDays = remainingDays;
+    }
+
+    public void setIsAdmin(Boolean isAdmin) {
+        this.isAdmin = isAdmin;
     }
 
     @Override

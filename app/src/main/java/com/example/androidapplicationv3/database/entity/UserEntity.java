@@ -21,19 +21,16 @@ public class UserEntity {
 
     private String password;
 
-    private Long birthday;
-
     private int remainingDays;
 
     private boolean isAdmin;
 
 
-    public UserEntity(String lastname, String firstname, String login, String password, Long birthday, int remainingDays, Boolean isAdmin){
+    public UserEntity(String lastname, String firstname, String login, String password, int remainingDays, Boolean isAdmin){
         this.lastname = lastname;
         this.firstname = firstname;
         this.login = login;
         this.password = password;
-        this.birthday = birthday;
         this.remainingDays = remainingDays;
         this.isAdmin = isAdmin;
     }
@@ -57,10 +54,6 @@ public class UserEntity {
 
     public String getPassword() {
         return password;
-    }
-
-    public Long getBirthday() {
-        return birthday;
     }
 
     public int getRemainingDays() {
@@ -91,10 +84,6 @@ public class UserEntity {
         this.password = password;
     }
 
-    public void setBirthday(Long birthday) {
-        this.birthday = birthday;
-    }
-
     public void setRemainingDays(int remainingDays) {
         this.remainingDays = remainingDays;
     }
@@ -109,6 +98,6 @@ public class UserEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUser, lastname, firstname, login, password, birthday, remainingDays);
+        return Objects.hash(idUser, lastname, firstname, login, password, remainingDays);
     }
 }

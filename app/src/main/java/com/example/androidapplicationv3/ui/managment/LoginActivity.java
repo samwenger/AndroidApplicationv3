@@ -1,4 +1,4 @@
-package com.example.androidapplicationv3.ui;
+package com.example.androidapplicationv3.ui.managment;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,6 +14,8 @@ import android.widget.ProgressBar;
 import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.R;
 import com.example.androidapplicationv3.database.repository.UserRepository;
+import com.example.androidapplicationv3.ui.BaseActivity;
+import com.example.androidapplicationv3.ui.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -79,6 +81,7 @@ public class LoginActivity extends AppCompatActivity {
 
                         SharedPreferences.Editor editor = getSharedPreferences(BaseActivity.PREFS_NAME,0).edit();
                         editor.putLong(BaseActivity.PREFS_IDUSER, userEntity.getIdUser());
+                        editor.putBoolean(BaseActivity.PREFS_ISADMIN, userEntity.getIsAdmin());
                         editor.apply();
 
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);

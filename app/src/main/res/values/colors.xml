@@ -3,4 +3,10 @@
     <color name="colorPrimary">#00b6ee</color>
     <color name="colorPrimaryDark">#00b6ee</color>
     <color name="colorAccent">#00b6ee</color>
+
+    <color name="colorTypeVacation">#289A2C</color>
+    <color name="colorTypeSpecialLeave">#FF9800</color>
+    <color name="colorTypeOvertime">#9C27B0</color>
+    <color name="colorTypeLeaveWithoutPay">#D31414</color>
+
 </resources>

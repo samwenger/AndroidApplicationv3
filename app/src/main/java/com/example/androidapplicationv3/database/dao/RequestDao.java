@@ -12,6 +12,7 @@ import androidx.room.Update;
 import com.example.androidapplicationv3.database.entity.RequestEntity;
 import com.example.androidapplicationv3.database.entity.UserEntity;
 import com.example.androidapplicationv3.database.pojo.RequestWithType;
+import com.example.androidapplicationv3.database.pojo.RequestWithUser;
 
 import java.util.List;
 
@@ -29,8 +30,11 @@ public interface RequestDao {
     @Query("SELECT * FROM requests WHERE idRequest = :id")
     LiveData<RequestWithType> getWithInfos(Long id);
 
-    @Query("SELECT * FROM requests WHERE idUser = :id")
+    @Query("SELECT * FROM requests WHERE idUser = :id ORDER BY dateDebut")
     LiveData<List<RequestWithType>> getByIdUserWithInfos(Long id);
+
+    @Query("SELECT * FROM requests WHERE idStatus = :id ORDER BY dateDebut")
+    LiveData<List<RequestWithUser>> getByIdStatusWithInfos(Long id);
 
     @Update
     public abstract void update(RequestEntity request);

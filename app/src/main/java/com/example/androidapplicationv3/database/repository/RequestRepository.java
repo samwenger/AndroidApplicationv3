@@ -11,6 +11,7 @@ import com.example.androidapplicationv3.database.async.requests.UpdateRequest;
 import com.example.androidapplicationv3.database.entity.RequestEntity;
 import com.example.androidapplicationv3.database.entity.UserEntity;
 import com.example.androidapplicationv3.database.pojo.RequestWithType;
+import com.example.androidapplicationv3.database.pojo.RequestWithUser;
 import com.example.androidapplicationv3.util.OnAsyncEventListener;
 
 import java.util.List;
@@ -52,6 +53,10 @@ public class RequestRepository {
 
     public LiveData<List<RequestWithType>> getRequestByUserWithInfos(final Long id, Application application) {
         return ((BaseApp) application).getDatabase().requestDao().getByIdUserWithInfos(id);
+    }
+
+    public LiveData<List<RequestWithUser>> getRequestByStatus(final Long id, Application application) {
+        return ((BaseApp) application).getDatabase().requestDao().getByIdStatusWithInfos(id);
     }
 
     public void update(final RequestEntity request, OnAsyncEventListener callback,

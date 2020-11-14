@@ -45,6 +45,8 @@
     <string name="action_edit">EDIT</string>
     <string name="action_delete">DELETE</string>
     <string name="action_cancel">CANCEL</string>
+    <string name="action_save">SAVE</string>
+
 
     <string name="prompt_pickdate">Pick a date</string>
 

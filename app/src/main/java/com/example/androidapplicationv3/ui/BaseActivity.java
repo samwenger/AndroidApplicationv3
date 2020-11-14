@@ -11,6 +11,7 @@ import android.widget.FrameLayout;
 import com.example.androidapplicationv3.R;
 import com.example.androidapplicationv3.ui.admin.RegisterUserActivity;
 import com.example.androidapplicationv3.ui.admin.RequestsAdminActivity;
+import com.example.androidapplicationv3.ui.managment.SettingsActivity;
 import com.example.androidapplicationv3.ui.request.AddRequestActivity;
 import com.example.androidapplicationv3.ui.request.RequestsActivity;
 import com.google.android.material.navigation.NavigationView;
@@ -78,7 +79,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     public boolean onOptionsItemSelected(MenuItem item) {
 
         if(item.getItemId() == R.id.action_settings) {
-            Intent intent = new Intent(this, PreferenceActivity.class);
+            Intent intent = new Intent(this, SettingsActivity.class);
             startActivity(intent);
         }
         return super.onOptionsItemSelected(item);

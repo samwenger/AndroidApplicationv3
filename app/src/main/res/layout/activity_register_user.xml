@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainBackground"
     tools:context=".ui.admin.RegisterUserActivity">
 
 
@@ -14,6 +15,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
         android:text="Register a new user"
+        android:textColor="@color/altText"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,6 +27,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="@string/prompt_lastname"
+        android:textColor="@color/altText"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView3" />
@@ -36,6 +39,7 @@
         android:layout_marginStart="16dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="@color/mainText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelLastname" />
 
@@ -46,6 +50,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="@string/prompt_firstname"
+        android:textColor="@color/altText"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerInputLastname" />
@@ -57,6 +62,7 @@
         android:layout_marginStart="16dp"
         android:ems="10"
         android:inputType="textPersonName"
+        android:textColor="@color/mainText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelFirstname" />
 
@@ -67,6 +73,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="@string/prompt_username"
+        android:textColor="@color/altText"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerInputFirstname" />
@@ -78,6 +85,7 @@
         android:layout_marginStart="16dp"
         android:ems="10"
         android:inputType="textNoSuggestions"
+        android:textColor="@color/mainText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelUsername" />
 
@@ -88,6 +96,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="@string/prompt_password"
+        android:textColor="@color/altText"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerInputUsername" />
@@ -99,6 +108,7 @@
         android:layout_marginStart="16dp"
         android:ems="10"
         android:inputType="textPassword"
+        android:textColor="@color/mainText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelPassword" />
 
@@ -109,6 +119,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="24dp"
         android:text="@string/prompt_isAdmin"
+        android:textColor="@color/mainText"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/registerInputPassword" />

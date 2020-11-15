@@ -4,9 +4,9 @@
     <color name="colorPrimaryDark">#00b6ee</color>
     <color name="colorAccent">#00b6ee</color>
 
-    <color name="mainText">#333333</color>
-    <color name="altText">#545454</color>
-    <color name="mainBackground">#f7f7f7</color>
+    <color name="mainText">#ffffff</color>
+    <color name="altText">#f5f5f5</color>
+    <color name="mainBackground">#333333</color>
 
     <color name="colorTypeVacation">#289A2C</color>
     <color name="colorTypeSpecialLeave">#FF9800</color>

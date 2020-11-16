@@ -14,22 +14,15 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
+import android.preference.SwitchPreference;
+import android.view.MenuItem;
+
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NavUtils;
 
-import android.preference.SwitchPreference;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.Switch;
-import android.widget.Toast;
-
 import com.example.androidapplicationv3.R;
-import com.example.androidapplicationv3.ui.BaseActivity;
 
 import java.util.List;
-import java.util.prefs.PreferenceChangeEvent;
-import java.util.prefs.PreferenceChangeListener;
 
 
 /**
@@ -162,8 +155,7 @@ public class SettingsActivity extends PreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || AboutPreferenceFragment.class.getName().equals(fragmentName)
-                || DisplayPreferenceFragment.class.getName().equals(fragmentName)
-                || SystemPreferenceFragment.class.getName().equals(fragmentName);
+                || DisplayPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -235,28 +227,4 @@ public class SettingsActivity extends PreferenceActivity {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class SystemPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_system);
-            setHasOptionsMenu(true);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-        }
-
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
-    }
 }

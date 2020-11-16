@@ -30,15 +30,15 @@ public class RequestsActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // initialize view
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_requests, frameLayout);
-
         setTitle(getString(R.string.title_activity_requests));
         navigationView.setCheckedItem(R.id.nav_requests);
 
         requestsListView = findViewById(R.id.requestsListView);
 
-        // use a linear layout manager
+        //mange linear layout manager for the recycler view
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         requestsListView.setLayoutManager(layoutManager);
 
@@ -47,10 +47,12 @@ public class RequestsActivity extends BaseActivity {
         requestsListView.addItemDecoration(dividerItemDecoration);
 
 
-        // Get userId
+        // Get the id of the current user
         SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
         Long idUser = settings.getLong(BaseActivity.PREFS_IDUSER, 0);
 
+
+        // Get data from the database
         requests = new ArrayList<>();
         adapter = new RecyclerAdapterRequestsForUser<>(new RecyclerViewItemClickListener() {
             @Override
@@ -66,7 +68,6 @@ public class RequestsActivity extends BaseActivity {
 
         });
 
-        // Get data from the database
         RequestListViewModel.Factory factory = new RequestListViewModel.Factory(getApplication(), idUser);
         requestListViewModel = ViewModelProviders.of(this,factory).get(RequestListViewModel.class);
         requestListViewModel.getRequestsWithInfosByUser().observe(this, requestEntities -> {
@@ -79,6 +80,9 @@ public class RequestsActivity extends BaseActivity {
         requestsListView.setAdapter(adapter);
     }
 
+    /**
+     * Update navigation drawer onresume
+     */
     @Override
     protected void onResume() {
         super.onResume();

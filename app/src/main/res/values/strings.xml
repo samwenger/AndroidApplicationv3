@@ -10,7 +10,7 @@
     <string name="title_activity_main">Overview</string>
     <string name="title_activity_adminrequests">Pending requests</string>
     <string name="title_activity_requests">My requests</string>
-    <string name="title_activity_base">MainActivity</string>
+    <string name="title_activity_base">Base</string>
     <string name="title_activity_login">Login Screen</string>
     <string name="title_activity_settings">Settings</string>
 
@@ -66,11 +66,11 @@
     <string name="pref_language_title">Language</string>
     <string name="pref_language_text">Choose the language of the application</string>
     <string name="pref_header_display">Display settings</string>
-    <string name="pref_header_system">System settings</string>
 
     <!-- Messages -->
     <string name="delete_msg">Do you really want to delete this request ?</string>
     <string name="request_edited_msg">Request has been edited.</string>
+    <string name="request_submitted_msg">Request has been submitted.</string>
     <string name="user_created_msg">User created.</string>
 
 
@@ -113,8 +113,7 @@
     <!-- Sync Preferences -->
     <string name="sync_title">Sync email periodically</string>
     <string name="attachment_title">Download incoming attachments</string>
-    <string name="attachment_summary_on">Automatically download attachments for incoming emails
-    </string>
+    <string name="attachment_summary_on">Automatically download attachments for incoming emails</string>
     <string name="attachment_summary_off">Only download attachments when manually requested</string>
 
 

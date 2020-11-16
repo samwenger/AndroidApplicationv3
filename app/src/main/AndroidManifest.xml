@@ -10,42 +10,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <activity
-            android:name=".ui.admin.RegisterUserActivity"
-            android:label="@string/title_activity_registeruser"
-            android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
-        </activity>
-        <activity
-            android:name=".ui.admin.DetailsRequestAdminActivity"
-            android:label="@string/title_activity_requests"
-            android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
-        </activity>
-        <activity
-            android:name=".ui.admin.RequestsAdminActivity"
-            android:label="@string/title_activity_requests"
-            android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
-        </activity>
-        <activity
-            android:name=".ui.request.DetailsRequestActivity"
-            android:label="@string/title_activity_detailsrequest"
-            android:parentActivityName=".ui.request.RequestsActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
-        </activity>
+            android:name=".ui.BaseActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <activity
             android:name=".ui.managment.LoginActivity"
             android:label="@string/app_name">
@@ -55,24 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".ui.request.AddRequestActivity"
-            android:label="@string/title_activity_addrequest"
-            android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
-        </activity>
-        <activity
-            android:name=".ui.request.RequestsActivity"
-            android:label="@string/title_activity_requests"
-            android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
-        </activity>
+
         <activity
             android:name=".ui.MainActivity"
             android:label="@string/title_activity_main"
@@ -82,17 +34,83 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.managment.LoginActivity" />
         </activity>
+
         <activity
-            android:name=".ui.BaseActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name=".ui.managment.SettingsActivity"
-            android:label="@string/title_activity_settings"
-            android:parentActivityName=".ui.MainActivity">
+            android:name=".ui.request.RequestsActivity"
+            android:label="@string/title_activity_requests"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
         </activity>
+
+        <activity
+            android:name=".ui.request.DetailsRequestActivity"
+            android:label="@string/title_activity_detailsrequest"
+            android:parentActivityName=".ui.request.RequestsActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".ui.request.AddRequestActivity"
+            android:label="@string/title_activity_addrequest"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".ui.admin.RequestsAdminActivity"
+            android:label="@string/title_activity_requests"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".ui.admin.DetailsRequestAdminActivity"
+            android:label="@string/title_activity_requests"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+
+
+
+        <activity
+            android:name=".ui.admin.RegisterUserActivity"
+            android:label="@string/title_activity_registeruser"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+
+
+        <activity
+            android:name=".ui.managment.SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/MyPreferencesTheme">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+
     </application>
 
 </manifest>

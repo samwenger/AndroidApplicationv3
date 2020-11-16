@@ -3,19 +3,15 @@ package com.example.androidapplicationv3.database;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.example.androidapplicationv3.database.converters.Converters;
 import com.example.androidapplicationv3.database.entity.StatusEntity;
 import com.example.androidapplicationv3.database.entity.TypeEntity;
 import com.example.androidapplicationv3.database.entity.UserEntity;
 
-import java.sql.Date;
 
 /**
  * Generates dummy data
  */
 public class DatabaseInitializer {
-
-    private static Converters converters = new Converters();
 
     public static final String TAG = "DatabaseInitializer";
 
@@ -47,19 +43,26 @@ public class DatabaseInitializer {
         db.typesDao().deleteAll();
         db.statusDao().deleteAll();
 
+        // Generating users
+        // Creating a simple user (no admin access)
         addUser(db,
                 "Gallay", "Robin", "robin.gallay", "AdminHevs01",25, false
         );
 
+
+        // Creating an admin user (with admin access)
         addUser(db,
                 "Wenger", "Samuel", "samuel.wenger", "AdminHevs01",10, true
         );
 
+        // Generating leaves types
         addType(db,new Long(1),"Vacation");
         addType(db,new Long(2),"Special Leave");
         addType(db,new Long(3),"Overtime Compensation");
         addType(db,new Long(4),"Leave without pay");
 
+
+        // Generating leaves status
         addStatus(db,new Long(1),"Pending");
         addStatus(db,new Long(2),"Approved");
         addStatus(db,new Long(3),"Refused");

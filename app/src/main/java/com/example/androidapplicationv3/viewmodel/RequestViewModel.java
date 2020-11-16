@@ -1,7 +1,6 @@
 package com.example.androidapplicationv3.viewmodel;
 
 import android.app.Application;
-import android.app.DownloadManager;
 
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
@@ -12,12 +11,9 @@ import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.database.entity.RequestEntity;
-import com.example.androidapplicationv3.database.pojo.RequestWithType;
 import com.example.androidapplicationv3.database.pojo.RequestWithUser;
 import com.example.androidapplicationv3.database.repository.RequestRepository;
 import com.example.androidapplicationv3.util.OnAsyncEventListener;
-
-import java.util.List;
 
 public class RequestViewModel extends AndroidViewModel {
 

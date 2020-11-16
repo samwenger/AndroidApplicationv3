@@ -140,7 +140,7 @@
         app:layout_constraintTop_toBottomOf="@+id/labelRemarks" />
 
     <Button
-        android:id="@+id/buttonDeleteRequest"
+        android:id="@+id/buttonSaveRequest"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"

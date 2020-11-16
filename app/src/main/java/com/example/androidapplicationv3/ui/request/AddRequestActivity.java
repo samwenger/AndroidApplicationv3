@@ -3,7 +3,6 @@ package com.example.androidapplicationv3.ui.request;
 import android.app.DatePickerDialog;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -21,7 +20,6 @@ import com.example.androidapplicationv3.database.entity.RequestEntity;
 import com.example.androidapplicationv3.database.repository.RequestRepository;
 import com.example.androidapplicationv3.ui.BaseActivity;
 import com.example.androidapplicationv3.util.OnAsyncEventListener;
-import com.example.androidapplicationv3.viewmodel.RequestViewModel;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -37,7 +35,6 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
     private static String SELECTED;
 
     private Converters converters = new Converters();
-    private RequestViewModel viewModel;
 
     private RequestRepository requestRepository;
     private RadioGroup radioButtonGroup;
@@ -51,9 +48,13 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
     private EditText remarks;
     private Long idUser;
 
+    private Toast toast;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // initialize view
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_add_request, frameLayout);
 
@@ -68,18 +69,24 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
         radioButton3 = findViewById(R.id.radioButtonOvertimeAddRequest);
         radioButton4 = findViewById(R.id.radioButtonWithoutPayAddRequest);
 
-
         startDate = findViewById(R.id.inputDateStart);
         endDate = findViewById(R.id.inputDateEnd);
         remarks = findViewById(R.id.inputRemarks);
 
+        Button button = findViewById(R.id.buttonSaveRequest);
 
+
+        // Get the current user ID
+        SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
+        idUser = settings.getLong(BaseActivity.PREFS_IDUSER, 0);
+
+
+        // Set listener on start and date to open a datePickerDialog
         startDate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 SELECTED = "STARTDATE";
-                showDatePicketDialog();
-
+                showDatePickerDialog();
             }
         });
 
@@ -87,14 +94,12 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
             @Override
             public void onClick(View v) {
                 SELECTED = "ENDDATE";
-                showDatePicketDialog();
+                showDatePickerDialog();
             }
         });
 
-        SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
-        idUser = settings.getLong(BaseActivity.PREFS_IDUSER, 0);
 
-        Button button = findViewById(R.id.buttonDeleteRequest);
+        // Set listener on delete button
         button.setOnClickListener(view -> {
             try {
                 if(addRequest())
@@ -107,12 +112,17 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
     }
 
 
-
+    /**
+     * Saving new request into the database
+     * @return
+     * @throws ParseException
+     */
     private boolean addRequest() throws ParseException {
 
         int selectedId = radioButtonGroup.getCheckedRadioButtonId();
         Long typeId = null;
 
+        // Get the selected type of leave and defining the ID to store in the database
         if(selectedId == radioButton1.getId()){
             typeId = new Long(1);
         } else if (selectedId == radioButton2.getId()) {
@@ -126,6 +136,8 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
             return false;
         }
 
+
+        // Checking if the dates matches the pattern before trying to save in the database
 
         Pattern datePattern = Pattern.compile("^([0-2]?[0-9]|(3)[0-1])(\\/)(((0)[0-9])|((1)[0-2]))(\\/)\\d{4}$");
 
@@ -143,6 +155,7 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
             return false;
         }
 
+        // Converting from string to date to check if the end date is after the start date
         Date dateDebut = new SimpleDateFormat("dd/MM/yyyy").parse(startDate.getText().toString());
         Date dateFin = new SimpleDateFormat("dd/MM/yyyy").parse(endDate.getText().toString());
 
@@ -151,6 +164,8 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
             return false;
         }
 
+
+        // Creating a new request Entity and setting attributes with values
         RequestEntity newRequest = new RequestEntity();
         newRequest.setIdUser(idUser);
 
@@ -161,33 +176,43 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
         newRequest.setIdType(typeId);
 
 
+        // Saving into database
         new AddRequest(getApplication(), new OnAsyncEventListener() {
             @Override
             public void onSuccess() {
-                Log.d(TAG, "createUserWithEmail: success");
+                setResponse(true);
             }
 
             @Override
             public void onFailure(Exception e) {
-                Log.d(TAG, "createUserWithEmail: failure", e);
+                setResponse(false);
             }
         }).execute(newRequest);
 
         return true;
-
     }
 
-    private void showDatePicketDialog(){
+
+    /**
+     * Method to show the DatePickerDialog
+     */
+    private void showDatePickerDialog(){
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this, this,
                 Calendar.getInstance().get(Calendar.YEAR),
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         );
-
         datePickerDialog.show();
     }
 
+    /**
+     * Take the value choosed in the DatePickerDialog and saving it into startDate or endDate
+     * @param view
+     * @param year
+     * @param month
+     * @param dayOfMonth
+     */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String date = dayOfMonth + "/" + (month+1) + "/" + year;
@@ -198,8 +223,29 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
             endDate.setText(date);
     }
 
+
+    /**
+     * Calculate number of days between two dates
+     * @param d1
+     * @param d2
+     * @return
+     */
     public int daysBetween(Date d1, Date d2) {
         return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
+    }
+
+
+    /**
+     * Message to user to confirm the result of the action
+     * @param response
+     */
+    private void setResponse(Boolean response) {
+        if (response) {
+            toast = Toast.makeText(this, getString(R.string.request_submitted_msg), Toast.LENGTH_LONG);
+            toast.show();
+        } else {
+            toast = Toast.makeText(this, getString(R.string.error_request_notedited), Toast.LENGTH_LONG);
+        }
     }
 
 }

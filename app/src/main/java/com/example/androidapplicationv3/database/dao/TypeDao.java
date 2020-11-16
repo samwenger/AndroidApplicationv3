@@ -6,7 +6,6 @@ import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
 
-import com.example.androidapplicationv3.database.entity.StatusEntity;
 import com.example.androidapplicationv3.database.entity.TypeEntity;
 
 @Dao

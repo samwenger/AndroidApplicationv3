@@ -2,7 +2,6 @@ package com.example.androidapplicationv3.database.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
@@ -26,10 +25,6 @@ public class TypeEntity {
 
     public String getType() {
         return type;
-    }
-
-    public void setIdType(Long idType) {
-        this.idType = idType;
     }
 
     public void setType(String type) {

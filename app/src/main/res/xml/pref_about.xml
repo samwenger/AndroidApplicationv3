@@ -1,0 +1,10 @@
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <Preference
+        android:enabled="true"
+        android:selectable="false"
+        android:summary="@string/pref_about_text"
+        android:title="@string/pref_header_about" />
+
+</PreferenceScreen>

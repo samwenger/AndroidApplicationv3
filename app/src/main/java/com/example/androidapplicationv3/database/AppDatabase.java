@@ -14,18 +14,15 @@ import com.example.androidapplicationv3.database.dao.RequestDao;
 import com.example.androidapplicationv3.database.dao.StatusDao;
 import com.example.androidapplicationv3.database.dao.TypeDao;
 import com.example.androidapplicationv3.database.dao.UserDao;
-import com.example.androidapplicationv3.database.dao.UserRoleDao;
 import com.example.androidapplicationv3.database.entity.RequestEntity;
-import com.example.androidapplicationv3.database.entity.RoleEntity;
 import com.example.androidapplicationv3.database.entity.StatusEntity;
 import com.example.androidapplicationv3.database.entity.TypeEntity;
 import com.example.androidapplicationv3.database.entity.UserEntity;
-import com.example.androidapplicationv3.database.entity.UserRoleEntity;
 
 import java.util.concurrent.Executors;
 
 
-@Database(entities = {RequestEntity.class, RoleEntity.class, StatusEntity.class, TypeEntity.class, UserEntity.class, UserRoleEntity.class}, version = 1)
+@Database(entities = {RequestEntity.class, StatusEntity.class, TypeEntity.class, UserEntity.class}, version = 1)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String TAG = "AppDatabase";
@@ -37,8 +34,6 @@ public abstract class AppDatabase extends RoomDatabase {
     public abstract RequestDao requestDao();
 
     public abstract UserDao userDao();
-
-    public abstract UserRoleDao userRoleDao();
 
     public abstract StatusDao statusDao();
 

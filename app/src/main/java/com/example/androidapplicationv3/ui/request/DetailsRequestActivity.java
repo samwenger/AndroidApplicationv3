@@ -1,9 +1,5 @@
 package com.example.androidapplicationv3.ui.request;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.ViewModelProviders;
-
 import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,16 +7,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.ViewModelProviders;
+
 import com.example.androidapplicationv3.R;
 import com.example.androidapplicationv3.database.converters.Converters;
-import com.example.androidapplicationv3.database.pojo.RequestWithType;
 import com.example.androidapplicationv3.database.pojo.RequestWithUser;
 import com.example.androidapplicationv3.ui.BaseActivity;
-import com.example.androidapplicationv3.ui.MainActivity;
 import com.example.androidapplicationv3.util.OnAsyncEventListener;
 import com.example.androidapplicationv3.viewmodel.RequestViewModel;
 
@@ -28,8 +24,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class DetailsRequestActivity extends BaseActivity implements DatePickerDialog.OnDateSetListener {
 
@@ -53,22 +47,23 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // initialize view
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_details_request, frameLayout);
-
         setTitle(getString(R.string.title_activity_detailsrequest));
-
         initiateView();
 
+        // get the id of the request to show
         Long requestId = getIntent().getLongExtra("requestId", 0);
 
-
+        // set listener on start and date to open a datePickerDialog
         inputDateStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isEditable) {
                     SELECTED = "STARTDATE";
-                    showDatePicketDialog();
+                    showDatePickerDialog();
                 }
             }
         });
@@ -78,11 +73,12 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
             public void onClick(View v) {
                 if(isEditable) {
                     SELECTED = "ENDDATE";
-                    showDatePicketDialog();
+                    showDatePickerDialog();
                 }
             }
         });
 
+        // Get data from the database
         RequestViewModel.Factory factory = new RequestViewModel.Factory(getApplication(), requestId);
         viewModel = ViewModelProviders.of(this, factory).get(RequestViewModel.class);
         viewModel.getRequest().observe(this, requestEntity -> {
@@ -94,6 +90,10 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
 
     }
 
+
+    /**
+     * Initialize view
+     */
     private void initiateView() {
         isEditable = false;
         inputType = findViewById(R.id.inputType);
@@ -103,6 +103,9 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
         inputRemarks = findViewById(R.id.inputRemarks);
     }
 
+    /**
+     * Set text values once the data has been retrieved from database
+     */
     private void updateContent() {
         if (request != null) {
 
@@ -117,67 +120,11 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
         }
     }
 
-    private void switchEditableMode() throws ParseException {
-        if (!isEditable) {
-            inputRemarks.setFocusable(true);
-            inputRemarks.setEnabled(true);
-            inputRemarks.setFocusableInTouchMode(true);
-            isEditable = true;
-
-        } else {
-            if(saveChanges(
-                    inputDateStart.getText().toString(),
-                    inputDateEnd.getText().toString(),
-                    inputRemarks.getText().toString()
-            )){
-                inputRemarks.setFocusable(false);
-                inputRemarks.setEnabled(false);
-                isEditable = false;
-            }
-        }
-
-    }
-
-
-    private boolean saveChanges(String dateStart, String dateEnd, String remark) throws ParseException {
-
-        Date dateDebut = new SimpleDateFormat("dd/MM/yyyy").parse(dateStart);
-        Date dateFin = new SimpleDateFormat("dd/MM/yyyy").parse(dateEnd);
-
-        Converters converters = new Converters();
-
-        request.request.setDateDebut(converters.dateToTimestamp(dateDebut));
-        request.request.setDateFin(converters.dateToTimestamp(dateFin));
-        request.request.setRemark(remark);
-        request.request.setIdStatus(new Long(1));
-
-        viewModel.updateRequest(request.request, new OnAsyncEventListener() {
-            @Override
-            public void onSuccess() {
-                setResponse(true);
-                onBackPressed();
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                setResponse(false);
-            }
-        });
-        return true;
-    }
-
-
-    private void setResponse(Boolean response) {
-        if (response) {
-            updateContent();
-            toast = Toast.makeText(this, getString(R.string.request_edited), Toast.LENGTH_LONG);
-            toast.show();
-        } else {
-            toast = Toast.makeText(this, getString(R.string.request_edited_error), Toast.LENGTH_LONG);
-        }
-    }
-
-
+    /**
+     * Initialize ActionBar of the activity
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -190,6 +137,11 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
         return true;
     }
 
+    /**
+     * Manage actions of the action bar
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == EDIT_CLIENT) {
@@ -220,7 +172,7 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
                 viewModel.deleteRequest(request.request, new OnAsyncEventListener() {
                     @Override
                     public void onSuccess() {
-                        logout();
+                        onBackPressed();
                     }
 
                     @Override
@@ -233,7 +185,87 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
         return super.onOptionsItemSelected(item);
     }
 
-    private void showDatePicketDialog(){
+    /**
+     * Switch between view and editable mode so user can modify requests
+     * @throws ParseException
+     */
+    private void switchEditableMode() throws ParseException {
+        if (!isEditable) {
+            inputRemarks.setFocusable(true);
+            inputRemarks.setEnabled(true);
+            inputRemarks.setFocusableInTouchMode(true);
+            isEditable = true;
+
+        } else {
+            if(saveChanges(
+                    inputDateStart.getText().toString(),
+                    inputDateEnd.getText().toString(),
+                    inputRemarks.getText().toString()
+            )){
+                inputRemarks.setFocusable(false);
+                inputRemarks.setEnabled(false);
+                isEditable = false;
+            }
+        }
+
+    }
+
+
+    /**
+     * Save request changes when leaving the editable mode. The status of the request is always reset to "Pending" (id: 1)
+     * @param dateStart
+     * @param dateEnd
+     * @param remark
+     * @return
+     * @throws ParseException
+     */
+    private boolean saveChanges(String dateStart, String dateEnd, String remark) throws ParseException {
+
+        Date dateDebut = new SimpleDateFormat("dd/MM/yyyy").parse(dateStart);
+        Date dateFin = new SimpleDateFormat("dd/MM/yyyy").parse(dateEnd);
+
+        Converters converters = new Converters();
+
+        request.request.setDateDebut(converters.dateToTimestamp(dateDebut));
+        request.request.setDateFin(converters.dateToTimestamp(dateFin));
+        request.request.setRemark(remark);
+        request.request.setIdStatus(new Long(1));
+
+        viewModel.updateRequest(request.request, new OnAsyncEventListener() {
+            @Override
+            public void onSuccess() {
+                setResponse(true);
+                onBackPressed();
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                setResponse(false);
+            }
+        });
+        return true;
+    }
+
+
+    /**
+     * Message to user to confirm the result of the action
+     * @param response
+     */
+    private void setResponse(Boolean response) {
+        if (response) {
+            updateContent();
+            toast = Toast.makeText(this, getString(R.string.request_edited_msg), Toast.LENGTH_LONG);
+            toast.show();
+        } else {
+            toast = Toast.makeText(this, getString(R.string.error_request_notedited), Toast.LENGTH_LONG);
+        }
+    }
+
+
+    /**
+     * Method to show the DatePickerDialog
+     */
+    private void showDatePickerDialog(){
         DatePickerDialog datePickerDialog = new DatePickerDialog(
                 this, this,
                 Calendar.getInstance().get(Calendar.YEAR),
@@ -243,6 +275,14 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
         datePickerDialog.show();
     }
 
+
+    /**
+     * Take the value choosed in the DatePickerDialog and saving it into startDate or endDate
+     * @param view
+     * @param year
+     * @param month
+     * @param dayOfMonth
+     */
     @Override
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
         String date = dayOfMonth + "/" + (month+1) + "/" + year;
@@ -253,17 +293,30 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
             inputDateEnd.setText(date);
     }
 
+
+    /**
+     * Check if inputs are correct before trying to save into the database
+     * @return
+     * @throws ParseException
+     */
     public boolean checkDatesInput() throws ParseException {
         Date dateDebut = new SimpleDateFormat("dd/MM/yyyy").parse(inputDateStart.getText().toString());
         Date dateFin = new SimpleDateFormat("dd/MM/yyyy").parse(inputDateEnd.getText().toString());
 
         if(daysBetween(dateDebut, dateFin) < 0){
-            Toast.makeText(this, getString(R.string.addrequest_enddatetoosmall), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.error_addrequest_enddatetoosmall), Toast.LENGTH_LONG).show();
             return false;
         }
         return true;
     }
 
+
+    /**
+     * Calculate number of days between two dates
+     * @param d1
+     * @param d2
+     * @return
+     */
     public int daysBetween(Date d1, Date d2) {
         return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));
     }

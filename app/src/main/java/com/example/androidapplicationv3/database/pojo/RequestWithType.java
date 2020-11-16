@@ -3,12 +3,9 @@ package com.example.androidapplicationv3.database.pojo;
 import androidx.room.Embedded;
 import androidx.room.Relation;
 
-import com.example.androidapplicationv3.database.converters.Converters;
 import com.example.androidapplicationv3.database.entity.RequestEntity;
 import com.example.androidapplicationv3.database.entity.StatusEntity;
 import com.example.androidapplicationv3.database.entity.TypeEntity;
-
-import java.text.SimpleDateFormat;
 
 public class RequestWithType {
     @Embedded
@@ -20,13 +17,4 @@ public class RequestWithType {
     @Relation(parentColumn = "idStatus", entityColumn = "idStatus", entity = StatusEntity.class)
     public StatusEntity status;
 
-    @Override
-    public String toString() {
-
-        String dateDebut = new SimpleDateFormat("dd/MM/yyyy").format(request.getDateDebut());
-        String dateFin = new SimpleDateFormat("dd/MM/yyyy").format(request.getDateFin());
-
-        return dateDebut + " - " + dateFin + " (" +
-                type.getType() + ") - " + status.getStatus();
-    }
 }

@@ -2,7 +2,6 @@ package com.example.androidapplicationv3.database.entity;
 
 import androidx.annotation.NonNull;
 import androidx.room.Entity;
-import androidx.room.PrimaryKey;
 
 import java.util.Objects;
 
@@ -27,10 +26,6 @@ public class StatusEntity {
 
     public String getStatus() {
         return status;
-    }
-
-    public void setIdStatus(Long idStatus) {
-        this.idStatus = idStatus;
     }
 
     public void setStatus(String status) {

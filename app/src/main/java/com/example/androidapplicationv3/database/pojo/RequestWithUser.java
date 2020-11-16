@@ -8,8 +8,6 @@ import com.example.androidapplicationv3.database.entity.StatusEntity;
 import com.example.androidapplicationv3.database.entity.TypeEntity;
 import com.example.androidapplicationv3.database.entity.UserEntity;
 
-import java.text.SimpleDateFormat;
-
 public class RequestWithUser {
 
     @Embedded
@@ -23,17 +21,5 @@ public class RequestWithUser {
 
     @Relation(parentColumn = "idUser", entityColumn = "idUser", entity = UserEntity.class)
     public UserEntity user;
-
-
-    @Override
-    public String toString() {
-
-        String dateDebut = new SimpleDateFormat("dd/MM/yyyy").format(request.getDateDebut());
-        String dateFin = new SimpleDateFormat("dd/MM/yyyy").format(request.getDateFin());
-
-        return user.getLastname() + " " + user.getFirstname() + " ("
-                + dateDebut + " - " + dateFin + ") (" +
-                type.getType() + ")";
-    }
 
 }

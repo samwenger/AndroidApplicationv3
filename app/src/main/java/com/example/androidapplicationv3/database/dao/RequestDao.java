@@ -10,7 +10,6 @@ import androidx.room.Query;
 import androidx.room.Update;
 
 import com.example.androidapplicationv3.database.entity.RequestEntity;
-import com.example.androidapplicationv3.database.entity.UserEntity;
 import com.example.androidapplicationv3.database.pojo.RequestWithType;
 import com.example.androidapplicationv3.database.pojo.RequestWithUser;
 
@@ -37,7 +36,7 @@ public interface RequestDao {
     LiveData<List<RequestWithUser>> getByIdStatusWithInfos(Long id);
 
     @Update
-    public abstract void update(RequestEntity request);
+    void update(RequestEntity request);
 
     @Delete
     void delete(RequestEntity request);

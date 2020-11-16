@@ -1,26 +1,18 @@
 package com.example.androidapplicationv3.ui.admin;
 
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.Toast;
 
+import androidx.appcompat.widget.SwitchCompat;
+
 import com.example.androidapplicationv3.R;
-import com.example.androidapplicationv3.database.async.requests.AddRequest;
 import com.example.androidapplicationv3.database.async.users.AddUser;
 import com.example.androidapplicationv3.database.entity.UserEntity;
 import com.example.androidapplicationv3.ui.BaseActivity;
 import com.example.androidapplicationv3.util.OnAsyncEventListener;
-
-import java.text.ParseException;
 
 public class RegisterUserActivity extends BaseActivity {
 
@@ -31,22 +23,25 @@ public class RegisterUserActivity extends BaseActivity {
     private EditText inputFirstname;
     private EditText inputUsername;
     private EditText inputPassword;
-    private Switch switchIsAdmin;
+    private SwitchCompat switchIsAdmin;
 
     private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // initialize view
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_register_user, frameLayout);
-
-        setTitle(getString(R.string.title_activity_registerUser));
+        setTitle(getString(R.string.title_activity_registeruser));
         navigationView.setCheckedItem(position);
-
         initiateView();
 
     }
 
+    /**
+     * Initialize view
+     */
     private void initiateView() {
         inputLastname = findViewById(R.id.registerInputLastname);
         inputFirstname = findViewById(R.id.registerInputFirstname);
@@ -55,82 +50,11 @@ public class RegisterUserActivity extends BaseActivity {
         switchIsAdmin = findViewById(R.id.registerSwitchIsAdmin);
     }
 
-    private void saveUser(String lastname, String firstname, String username, String password, Boolean isAdmin) {
-
-        if(lastname.isEmpty()) {
-           inputLastname.setError("Please fill in your lastname");
-           inputLastname.requestFocus();
-           Toast.makeText(this,"Error",Toast.LENGTH_LONG);
-           return;
-        }
-        if(firstname.isEmpty()) {
-            inputFirstname.setError("Please fill in your firstname");
-            inputFirstname.requestFocus();
-            return;
-        }
-        if(username.isEmpty()) {
-            inputUsername.setError("Please choose an username");
-            inputUsername.requestFocus();
-            return;
-        }
-        if(username.length() < 6) {
-           inputUsername.setError("This username is too short (<6 characters)");
-           inputUsername.requestFocus();
-           return;
-        }
-        if(!username.contains(".")) {
-            inputUsername.setError("Username must contain a dot '.'");
-            inputUsername.requestFocus();
-            return;
-        }
-        if(password.isEmpty()) {
-            inputPassword.setError("Please choose a new password");
-            inputPassword.setText("");
-            inputPassword.requestFocus();
-            return;
-        }
-        if(password.length() < 6) {
-            inputPassword.setError("This username is too short (<6 characters)");
-            inputPassword.requestFocus();
-            return;
-        }
-
-        UserEntity newUser = new UserEntity();
-
-        newUser.setLastname(lastname);
-        newUser.setFirstname(firstname);
-        newUser.setLogin(username);
-        newUser.setPassword(password);
-        newUser.setIsAdmin(isAdmin);
-
-        new AddUser(getApplication(), new OnAsyncEventListener() {
-            @Override
-            public void onSuccess() {
-                Log.d(TAG, "createUser: success");
-                setResponse(true);
-            }
-
-            @Override
-            public void onFailure(Exception e) {
-                Log.d(TAG, "createUser: failure", e);
-                setResponse(false);
-
-            }
-        }).execute(newUser);
-
-    }
-
-    private void setResponse(Boolean response) {
-        if (response) {
-            toast = Toast.makeText(this, "User created", Toast.LENGTH_LONG);
-            toast.show();
-            onBackPressed();
-        } else {
-            inputUsername.setError("Username already in use");
-            inputUsername.requestFocus();
-        }
-    }
-
+    /**
+     * Initialize ActionBar of the activity
+     * @param menu
+     * @return
+     */
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         super.onCreateOptionsMenu(menu);
@@ -140,6 +64,11 @@ public class RegisterUserActivity extends BaseActivity {
         return true;
     }
 
+    /**
+     * Manage actions of the action bar
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == SAVE_USER) {
@@ -155,4 +84,93 @@ public class RegisterUserActivity extends BaseActivity {
         }
         return true;
     }
+
+
+    /**
+     * Check inputs and add new user to database
+     *
+     * @param lastname
+     * @param firstname
+     * @param username
+     * @param password
+     * @param isAdmin
+     */
+    private void saveUser(String lastname, String firstname, String username, String password, Boolean isAdmin) {
+
+        if(lastname.isEmpty()) {
+           inputLastname.setError(getString(R.string.error_register_no_lastname));
+           inputLastname.requestFocus();
+           return;
+        }
+        if(firstname.isEmpty()) {
+            inputFirstname.setError(getString(R.string.error_register_no_firstname));
+            inputFirstname.requestFocus();
+            return;
+        }
+        if(username.isEmpty()) {
+            inputUsername.setError(getString(R.string.error_register_no_username));
+            inputUsername.requestFocus();
+            return;
+        }
+        if(username.length() < 6) {
+           inputUsername.setError(getString(R.string.error_register_username_too_short));
+           inputUsername.requestFocus();
+           return;
+        }
+        if(!username.contains(".")) {
+            inputUsername.setError(getString(R.string.error_register_invalid_username));
+            inputUsername.requestFocus();
+            return;
+        }
+        if(password.isEmpty()) {
+            inputPassword.setError(getString(R.string.error_register_no_password));
+            inputPassword.setText("");
+            inputPassword.requestFocus();
+            return;
+        }
+        if(password.length() < 6) {
+            inputPassword.setError(getString(R.string.error_invalid_password));
+            inputPassword.requestFocus();
+            return;
+        }
+
+        UserEntity newUser = new UserEntity();
+
+        newUser.setLastname(lastname);
+        newUser.setFirstname(firstname);
+        newUser.setLogin(username);
+        newUser.setPassword(password);
+        newUser.setIsAdmin(isAdmin);
+
+        new AddUser(getApplication(), new OnAsyncEventListener() {
+            @Override
+            public void onSuccess() {
+                setResponse(true);
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                setResponse(false);
+            }
+        }).execute(newUser);
+
+    }
+
+
+    /**
+     * Message to user to confirm the result of the action
+     * @param response
+     */
+    private void setResponse(Boolean response) {
+        if (response) {
+            toast = Toast.makeText(this, getString(R.string.user_created_msg), Toast.LENGTH_LONG);
+            toast.show();
+            onBackPressed();
+        } else {
+            inputUsername.setError(getString(R.string.error_register_username_alreadyinuse));
+            inputUsername.requestFocus();
+        }
+    }
+
+
 }

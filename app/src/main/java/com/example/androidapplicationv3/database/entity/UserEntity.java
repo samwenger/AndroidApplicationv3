@@ -28,7 +28,6 @@ public class UserEntity {
 
 
     public UserEntity() {
-
     }
 
     public UserEntity(String lastname, String firstname, String login, String password, int remainingDays, Boolean isAdmin){

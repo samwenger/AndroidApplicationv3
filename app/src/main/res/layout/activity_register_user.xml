@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:text="Register a new user"
+        android:text="@string/title_activity_registeruser"
         android:textColor="@color/altText"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -41,7 +41,8 @@
         android:inputType="textPersonName"
         android:textColor="@color/mainText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelLastname" />
+        app:layout_constraintTop_toBottomOf="@+id/labelLastname"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/labelFirstname"
@@ -64,7 +65,8 @@
         android:inputType="textPersonName"
         android:textColor="@color/mainText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelFirstname" />
+        app:layout_constraintTop_toBottomOf="@+id/labelFirstname"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/labelUsername"
@@ -87,7 +89,8 @@
         android:inputType="textNoSuggestions"
         android:textColor="@color/mainText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelUsername" />
+        app:layout_constraintTop_toBottomOf="@+id/labelUsername"
+        android:importantForAutofill="no" />
 
     <TextView
         android:id="@+id/labelPassword"
@@ -110,9 +113,10 @@
         android:inputType="textPassword"
         android:textColor="@color/mainText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/labelPassword"
+        android:importantForAutofill="no" />
 
-    <Switch
+    <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/registerSwitchIsAdmin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

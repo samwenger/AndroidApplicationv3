@@ -30,25 +30,28 @@ public class RequestsAdminActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // initialize view
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_requestsadmin, frameLayout);
-
         setTitle(getString(R.string.title_activity_adminrequests));
         navigationView.setCheckedItem(position);
 
         recyclerView = findViewById(R.id.adminRequestsRecyclerView);
 
-        // use a linear layout manager
+
+
+        // configure linear layout manager for the recycler adapter
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 LinearLayoutManager.VERTICAL);
         recyclerView.addItemDecoration(dividerItemDecoration);
 
 
-        requests = new ArrayList<>();
 
+
+        // Get data from the database
         adapter = new RecyclerAdapterRequestsForAdmin<>(new RecyclerViewItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
@@ -60,10 +63,10 @@ public class RequestsAdminActivity extends BaseActivity {
                 intent.putExtra("requestId", requests.get(position).request.getIdRequest());
                 startActivity(intent);
             }
-
         });
 
-        // Get data from the database
+        requests = new ArrayList<>();
+
         RequestAdminListViewModel.Factory factory = new RequestAdminListViewModel.Factory(getApplication(), new Long(1));
         requestListViewModel = ViewModelProviders.of(this,factory).get(RequestAdminListViewModel.class);
         requestListViewModel.getRequestByStatus().observe(this, requestEntities -> {
@@ -74,5 +77,15 @@ public class RequestsAdminActivity extends BaseActivity {
         });
 
         recyclerView.setAdapter(adapter);
+    }
+
+
+    /**
+     * Update navigation drawer on resume
+     */
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.setCheckedItem(R.id.nav_adminrequests);
     }
 }

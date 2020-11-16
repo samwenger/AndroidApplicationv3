@@ -11,14 +11,17 @@ import android.widget.FrameLayout;
 import com.example.androidapplicationv3.R;
 import com.example.androidapplicationv3.ui.admin.RegisterUserActivity;
 import com.example.androidapplicationv3.ui.admin.RequestsAdminActivity;
+import com.example.androidapplicationv3.ui.managment.LoginActivity;
 import com.example.androidapplicationv3.ui.managment.SettingsActivity;
 import com.example.androidapplicationv3.ui.request.AddRequestActivity;
 import com.example.androidapplicationv3.ui.request.RequestsActivity;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +44,8 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        // Initialize view
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -48,47 +53,38 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
         frameLayout = findViewById(R.id.flContent);
         drawerLayout = findViewById(R.id.drawer_layout);
+        navigationView = findViewById(R.id.nav_view);
 
 
+        // Navigation drawer configuration
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
-
-        navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+        // Check if the current user has admin access
         SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
         Boolean isAdmin = settings.getBoolean(BaseActivity.PREFS_ISADMIN, false);
 
         if (isAdmin) {
+            // Display admin menus only to admin users
             navigationView.getMenu().findItem(R.id.nav_adminrequests).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_registeruser).setVisible(true);
         }
 
-    }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.base, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        if(item.getItemId() == R.id.action_settings) {
-            Intent intent = new Intent(this, SettingsActivity.class);
-            startActivity(intent);
-        }
-        return super.onOptionsItemSelected(item);
     }
 
 
+    /**
+     * Handle clicks on navigation drawer menu and start the corresponding activity
+     * @param item
+     * @return
+     */
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == BaseActivity.position) {
@@ -132,13 +128,51 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
-    public void logout() {
-        FirebaseAuth.getInstance().signOut();
 
-       /* Intent intent = new Intent(this, LoginActivity.class);
+
+    /**
+     * Create the options menu
+     * @param menu
+     * @return
+     */
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.base, menu);
+        return true;
+    }
+
+
+
+    /**
+     * Handle click on options menu (settings)
+     * @param item
+     * @return
+     */
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        if(item.getItemId() == R.id.action_settings) {
+            Intent intent = new Intent(this, SettingsActivity.class);
+            startActivity(intent);
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+
+    /**
+     * Logout user
+     */
+    public void logout() {
+        SharedPreferences.Editor editor = getSharedPreferences(BaseActivity.PREFS_NAME, 0).edit();
+        editor.remove(BaseActivity.PREFS_IDUSER);
+        editor.remove(BaseActivity.PREFS_ISADMIN);
+        editor.apply();
+
+        Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(intent);*/
+        startActivity(intent);
     }
 
 

@@ -14,16 +14,13 @@ import android.preference.Preference;
 import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import androidx.annotation.Nullable;
+import android.preference.SwitchPreference;
+import android.view.MenuItem;
+
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NavUtils;
-import androidx.preference.SwitchPreference;
-
-import android.view.MenuItem;
-import android.widget.Switch;
 
 import com.example.androidapplicationv3.R;
-import com.example.androidapplicationv3.ui.BaseActivity;
 
 import java.util.List;
 
@@ -101,8 +98,10 @@ public class SettingsActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setupActionBar();
         setActionBarTitle(getString(R.string.title_activity_settings));
+
     }
 
     /**
@@ -156,8 +155,7 @@ public class SettingsActivity extends PreferenceActivity {
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || AboutPreferenceFragment.class.getName().equals(fragmentName)
-                || DisplayPreferenceFragment.class.getName().equals(fragmentName)
-                || SystemPreferenceFragment.class.getName().equals(fragmentName);
+                || DisplayPreferenceFragment.class.getName().equals(fragmentName);
     }
 
     /**
@@ -197,44 +195,26 @@ public class SettingsActivity extends PreferenceActivity {
             addPreferencesFromResource(R.xml.pref_display);
             setHasOptionsMenu(true);
 
-
-            Preference switchDarkMode = findPreference("switchDarkMode");
+            SwitchPreference switchDarkMode = (SwitchPreference) findPreference("switchDarkMode");
 
             switchDarkMode.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
+                    SharedPreferences sharedPreferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    boolean isChecked = sharedPreferences.getBoolean("switchDarkMode", false);
 
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    if(isChecked){
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    }
+                    else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
                     return true;
                 }
             });
 
         }
 
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
-            if (id == android.R.id.home) {
-                startActivity(new Intent(getActivity(), SettingsActivity.class));
-                return true;
-            }
-            return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class SystemPreferenceFragment extends PreferenceFragment {
-        @Override
-        public void onCreate(Bundle savedInstanceState) {
-            super.onCreate(savedInstanceState);
-            addPreferencesFromResource(R.xml.pref_system);
-            setHasOptionsMenu(true);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
-        }
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {
@@ -246,4 +226,5 @@ public class SettingsActivity extends PreferenceActivity {
             return super.onOptionsItemSelected(item);
         }
     }
+
 }

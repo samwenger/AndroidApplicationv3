@@ -1,9 +1,7 @@
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
-    android:background="@color/mainBackground">
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 
     <Preference
-        android:background="#FFFFFF"
         android:enabled="true"
         android:selectable="false"
         android:summary="@string/pref_about_text"

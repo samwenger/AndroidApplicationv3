@@ -1,5 +1,5 @@
 # Vacation Requests Application
-## About us
+## About
 This application has been developed during the class 644-1 Mobile Development. This application allows to manage leave requests. It could be used by a small company to manage its employees' absences.
 
 ## Uses

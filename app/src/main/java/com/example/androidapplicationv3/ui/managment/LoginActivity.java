@@ -1,6 +1,7 @@
 package com.example.androidapplicationv3.ui.managment;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -26,6 +27,11 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        if(darkModeOn()){
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+
         super.onCreate(savedInstanceState);
         setTitle(R.string.title_activity_login);
         setContentView(R.layout.activity_login);
@@ -105,10 +111,22 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private boolean isPasswordValid(String password) {
-        return password.length() > 4;
+        return password.length() >= 6;
     }
 
     private boolean isUsernameValid(String username) {
-        return username.contains(".") && username.length()>6;
+        return username.contains(".") && username.length()>=6;
+    }
+
+    private boolean darkModeOn() {
+        SharedPreferences sharedPreferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(this);
+        boolean isChecked = sharedPreferences.getBoolean("switchDarkMode", false);
+
+        if(isChecked){
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 }

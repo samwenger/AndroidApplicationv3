@@ -34,7 +34,7 @@ public class RequestsActivity extends BaseActivity {
         getLayoutInflater().inflate(R.layout.activity_requests, frameLayout);
 
         setTitle(getString(R.string.title_activity_requests));
-        navigationView.setCheckedItem(position);
+        navigationView.setCheckedItem(R.id.nav_requests);
 
         requestsListView = findViewById(R.id.requestsListView);
 
@@ -77,5 +77,11 @@ public class RequestsActivity extends BaseActivity {
         });
 
         requestsListView.setAdapter(adapter);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.setCheckedItem(R.id.nav_requests);
     }
 }

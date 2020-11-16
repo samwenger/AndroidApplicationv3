@@ -12,7 +12,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.admin.RegisterUserActivity"
-            android:label="@string/title_activity_registerUser"
+            android:label="@string/title_activity_registeruser"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data

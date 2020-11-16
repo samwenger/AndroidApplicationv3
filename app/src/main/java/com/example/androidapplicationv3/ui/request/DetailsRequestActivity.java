@@ -170,10 +170,10 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
     private void setResponse(Boolean response) {
         if (response) {
             updateContent();
-            toast = Toast.makeText(this, getString(R.string.request_edited), Toast.LENGTH_LONG);
+            toast = Toast.makeText(this, getString(R.string.request_edited_msg), Toast.LENGTH_LONG);
             toast.show();
         } else {
-            toast = Toast.makeText(this, getString(R.string.request_edited_error), Toast.LENGTH_LONG);
+            toast = Toast.makeText(this, getString(R.string.error_request_notedited), Toast.LENGTH_LONG);
         }
     }
 
@@ -258,7 +258,7 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
         Date dateFin = new SimpleDateFormat("dd/MM/yyyy").parse(inputDateEnd.getText().toString());
 
         if(daysBetween(dateDebut, dateFin) < 0){
-            Toast.makeText(this, getString(R.string.addrequest_enddatetoosmall), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.error_addrequest_enddatetoosmall), Toast.LENGTH_LONG).show();
             return false;
         }
         return true;

@@ -1,7 +1,13 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
 
-    <Preference
+  <!--<Preference
+        android:key="switchDarkMode"
+        android:summary="@string/pref_colormode_text"
+        android:title="@string/pref_colormode_title" />
+        -->
+
+    <SwitchPreference
         android:key="switchDarkMode"
         android:summary="@string/pref_colormode_text"
         android:title="@string/pref_colormode_title" />

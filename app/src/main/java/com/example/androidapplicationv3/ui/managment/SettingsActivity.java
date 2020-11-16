@@ -17,15 +17,19 @@ import android.preference.PreferenceManager;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.NavUtils;
-import androidx.preference.SwitchPreference;
 
+import android.preference.SwitchPreference;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Switch;
+import android.widget.Toast;
 
 import com.example.androidapplicationv3.R;
 import com.example.androidapplicationv3.ui.BaseActivity;
 
 import java.util.List;
+import java.util.prefs.PreferenceChangeEvent;
+import java.util.prefs.PreferenceChangeListener;
 
 
 /**
@@ -101,8 +105,10 @@ public class SettingsActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setupActionBar();
         setActionBarTitle(getString(R.string.title_activity_settings));
+
     }
 
     /**
@@ -197,19 +203,26 @@ public class SettingsActivity extends PreferenceActivity {
             addPreferencesFromResource(R.xml.pref_display);
             setHasOptionsMenu(true);
 
-
-            Preference switchDarkMode = findPreference("switchDarkMode");
+            SwitchPreference switchDarkMode = (SwitchPreference) findPreference("switchDarkMode");
 
             switchDarkMode.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
                 @Override
                 public boolean onPreferenceClick(Preference preference) {
+                    SharedPreferences sharedPreferences = androidx.preference.PreferenceManager.getDefaultSharedPreferences(getActivity());
+                    boolean isChecked = sharedPreferences.getBoolean("switchDarkMode", false);
 
-                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    if(isChecked){
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                    }
+                    else {
+                        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                    }
                     return true;
                 }
             });
 
         }
+
 
         @Override
         public boolean onOptionsItemSelected(MenuItem item) {

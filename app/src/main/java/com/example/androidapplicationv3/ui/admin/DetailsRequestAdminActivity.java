@@ -123,10 +123,10 @@ public class DetailsRequestAdminActivity extends BaseActivity {
     private void setResponse(Boolean response) {
         if (response) {
             updateContent();
-            toast = Toast.makeText(this, getString(R.string.request_edited), Toast.LENGTH_LONG);
+            toast = Toast.makeText(this, getString(R.string.request_edited_msg), Toast.LENGTH_LONG);
             toast.show();
         } else {
-            toast = Toast.makeText(this, getString(R.string.request_edited_error), Toast.LENGTH_LONG);
+            toast = Toast.makeText(this, getString(R.string.error_request_notedited), Toast.LENGTH_LONG);
         }
     }
 

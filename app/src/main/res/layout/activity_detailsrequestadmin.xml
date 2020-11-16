@@ -8,16 +8,48 @@
     tools:context=".ui.admin.DetailsRequestAdminActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/labelRequestDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
-        android:text="Request details"
+        android:text="@string/title_activity_detailsrequestadmin"
         android:textColor="@color/altText"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/labelUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/prompt_user"
+        android:textColor="@color/altText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelRequestDetails" />
+
+    <TextView
+        android:id="@+id/adminInputUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="44dp"
+        android:textColor="@color/mainText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelRequestDetails" />
+
+    <TextView
+        android:id="@+id/labelType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="84dp"
+        android:text="@string/prompt_type"
+        android:textColor="@color/altText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelRequestDetails" />
 
     <TextView
         android:id="@+id/adminInputType"
@@ -30,14 +62,15 @@
         app:layout_constraintTop_toBottomOf="@+id/labelStatus" />
 
     <TextView
-        android:id="@+id/adminInputUser"
+        android:id="@+id/labelStatus"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="44dp"
-        android:textColor="@color/mainText"
+        android:layout_marginStart="212dp"
+        android:layout_marginTop="84dp"
+        android:text="@string/prompt_status"
+        android:textColor="@color/altText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/labelRequestDetails" />
 
     <TextView
         android:id="@+id/adminInputStatus"
@@ -48,6 +81,61 @@
         android:textColor="@color/mainText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelStatus" />
+
+    <TextView
+        android:id="@+id/labelFrom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="46dp"
+        android:text="@string/prompt_from"
+        android:textColor="@color/altText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelType" />
+
+    <TextView
+        android:id="@+id/adminInputDateStart"
+        android:layout_width="165dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/mainText"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelFrom" />
+
+    <TextView
+        android:id="@+id/labelTo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="163dp"
+        android:layout_marginTop="46dp"
+        android:text="@string/prompt_to"
+        android:textColor="@color/altText"
+        app:layout_constraintStart_toEndOf="@+id/labelFrom"
+        app:layout_constraintTop_toBottomOf="@+id/labelStatus" />
+
+    <TextView
+        android:id="@+id/adminInputDateEnd"
+        android:layout_width="165dp"
+        android:layout_height="34dp"
+        android:layout_marginStart="212dp"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/mainText"
+        android:textSize="18sp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/labelFrom" />
+
+    <TextView
+        android:id="@+id/labelRemarks"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="24dp"
+        android:text="@string/prompt_remark"
+        android:textColor="@color/altText"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adminInputDateStart" />
 
     <TextView
         android:id="@+id/adminInputRemarks"
@@ -62,50 +150,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelRemarks" />
 
-    <TextView
-        android:id="@+id/labelType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="84dp"
-        android:text="Type"
-        android:textColor="@color/altText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <TextView
-        android:id="@+id/labelUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:text="User"
-        android:textColor="@color/altText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <TextView
-        android:id="@+id/adminInputDateStart"
-        android:layout_width="165dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="4dp"
-        android:textColor="@color/mainText"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelFrom" />
-
-    <TextView
-        android:id="@+id/labelStatus"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="212dp"
-        android:layout_marginTop="84dp"
-        android:text="Status"
-        android:textColor="@color/altText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
     <ImageButton
         android:id="@+id/button_accept"
         android:layout_width="163dp"
@@ -113,20 +157,9 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="48dp"
         android:src="@drawable/ic_baseline_check_24"
-        android:text="Button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adminInputRemarks" />
-
-    <TextView
-        android:id="@+id/adminInputDateEnd"
-        android:layout_width="165dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="212dp"
-        android:layout_marginTop="4dp"
-        android:textColor="@color/mainText"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelFrom" />
+        app:layout_constraintTop_toBottomOf="@+id/adminInputRemarks"
+        android:contentDescription="@string/description_accept" />
 
     <ImageButton
         android:id="@+id/button_deny"
@@ -135,41 +168,8 @@
         android:layout_marginStart="216dp"
         android:layout_marginTop="48dp"
         android:src="@drawable/ic_baseline_clear_24"
-        android:text="Button"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adminInputRemarks" />
-
-    <TextView
-        android:id="@+id/labelTo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="163dp"
-        android:layout_marginTop="46dp"
-        android:text="To"
-        android:textColor="@color/altText"
-        app:layout_constraintStart_toEndOf="@+id/labelFrom"
-        app:layout_constraintTop_toBottomOf="@+id/labelStatus" />
-
-    <TextView
-        android:id="@+id/labelFrom"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="46dp"
-        android:text="From"
-        android:textColor="@color/altText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/labelType" />
-
-    <TextView
-        android:id="@+id/labelRemarks"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="24dp"
-        android:text="Remarks"
-        android:textColor="@color/altText"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adminInputDateStart" />
+        app:layout_constraintTop_toBottomOf="@+id/adminInputRemarks"
+        android:contentDescription="@string/description_deny" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

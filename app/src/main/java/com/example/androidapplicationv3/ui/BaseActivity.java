@@ -11,14 +11,17 @@ import android.widget.FrameLayout;
 import com.example.androidapplicationv3.R;
 import com.example.androidapplicationv3.ui.admin.RegisterUserActivity;
 import com.example.androidapplicationv3.ui.admin.RequestsAdminActivity;
+import com.example.androidapplicationv3.ui.managment.LoginActivity;
 import com.example.androidapplicationv3.ui.managment.SettingsActivity;
 import com.example.androidapplicationv3.ui.request.AddRequestActivity;
 import com.example.androidapplicationv3.ui.request.RequestsActivity;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +44,9 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        FirebaseApp.initializeApp(this);
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_base);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -65,6 +71,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
             navigationView.getMenu().findItem(R.id.nav_adminrequests).setVisible(true);
             navigationView.getMenu().findItem(R.id.nav_registeruser).setVisible(true);
         }
+
 
     }
 
@@ -133,12 +140,15 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
     }
 
     public void logout() {
-        FirebaseAuth.getInstance().signOut();
+        SharedPreferences.Editor editor = getSharedPreferences(BaseActivity.PREFS_NAME, 0).edit();
+        editor.remove(BaseActivity.PREFS_IDUSER);
+        editor.remove(BaseActivity.PREFS_ISADMIN);
+        editor.apply();
 
-       /* Intent intent = new Intent(this, LoginActivity.class);
+        Intent intent = new Intent(this, LoginActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
-        startActivity(intent);*/
+        startActivity(intent);
     }
 
 

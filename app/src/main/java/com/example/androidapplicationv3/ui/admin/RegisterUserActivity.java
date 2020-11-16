@@ -2,6 +2,7 @@ package com.example.androidapplicationv3.ui.admin;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.SwitchCompat;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -31,7 +32,7 @@ public class RegisterUserActivity extends BaseActivity {
     private EditText inputFirstname;
     private EditText inputUsername;
     private EditText inputPassword;
-    private Switch switchIsAdmin;
+    private SwitchCompat switchIsAdmin;
 
     private Toast toast;
 
@@ -40,7 +41,7 @@ public class RegisterUserActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_register_user, frameLayout);
 
-        setTitle(getString(R.string.title_activity_registerUser));
+        setTitle(getString(R.string.title_activity_registeruser));
         navigationView.setCheckedItem(position);
 
         initiateView();
@@ -58,39 +59,38 @@ public class RegisterUserActivity extends BaseActivity {
     private void saveUser(String lastname, String firstname, String username, String password, Boolean isAdmin) {
 
         if(lastname.isEmpty()) {
-           inputLastname.setError("Please fill in your lastname");
+           inputLastname.setError(getString(R.string.error_register_no_lastname));
            inputLastname.requestFocus();
-           Toast.makeText(this,"Error",Toast.LENGTH_LONG);
            return;
         }
         if(firstname.isEmpty()) {
-            inputFirstname.setError("Please fill in your firstname");
+            inputFirstname.setError(getString(R.string.error_register_no_firstname));
             inputFirstname.requestFocus();
             return;
         }
         if(username.isEmpty()) {
-            inputUsername.setError("Please choose an username");
+            inputUsername.setError(getString(R.string.error_register_no_username));
             inputUsername.requestFocus();
             return;
         }
         if(username.length() < 6) {
-           inputUsername.setError("This username is too short (<6 characters)");
+           inputUsername.setError(getString(R.string.error_register_username_too_short));
            inputUsername.requestFocus();
            return;
         }
         if(!username.contains(".")) {
-            inputUsername.setError("Username must contain a dot '.'");
+            inputUsername.setError(getString(R.string.error_register_invalid_username));
             inputUsername.requestFocus();
             return;
         }
         if(password.isEmpty()) {
-            inputPassword.setError("Please choose a new password");
+            inputPassword.setError(getString(R.string.error_register_no_password));
             inputPassword.setText("");
             inputPassword.requestFocus();
             return;
         }
         if(password.length() < 6) {
-            inputPassword.setError("This username is too short (<6 characters)");
+            inputPassword.setError(getString(R.string.error_invalid_password));
             inputPassword.requestFocus();
             return;
         }
@@ -122,11 +122,11 @@ public class RegisterUserActivity extends BaseActivity {
 
     private void setResponse(Boolean response) {
         if (response) {
-            toast = Toast.makeText(this, "User created", Toast.LENGTH_LONG);
+            toast = Toast.makeText(this, getString(R.string.user_created_msg), Toast.LENGTH_LONG);
             toast.show();
             onBackPressed();
         } else {
-            inputUsername.setError("Username already in use");
+            inputUsername.setError(getString(R.string.error_register_username_alreadyinuse));
             inputUsername.requestFocus();
         }
     }

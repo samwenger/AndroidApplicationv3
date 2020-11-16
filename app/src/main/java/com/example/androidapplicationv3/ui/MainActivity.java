@@ -21,6 +21,7 @@ import com.example.androidapplicationv3.database.pojo.RequestWithType;
 import com.example.androidapplicationv3.viewmodel.RequestListViewModel;
 import com.github.sundeepk.compactcalendarview.CompactCalendarView;
 import com.github.sundeepk.compactcalendarview.domain.Event;
+import com.google.firebase.FirebaseApp;
 
 import java.sql.Timestamp;
 import java.text.ParseException;
@@ -40,7 +41,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 public class MainActivity extends BaseActivity {
 
-    CompactCalendarView compactCalendar;
+    private CompactCalendarView compactCalendar;
     private SimpleDateFormat dateFormatMonth = new SimpleDateFormat("MMMM YYYY", Locale.getDefault());
 
     private List<RequestWithType> requests;
@@ -48,11 +49,12 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
 
         setTitle(getString(R.string.title_activity_main));
-        navigationView.setCheckedItem(position);
+        navigationView.setCheckedItem(R.id.nav_home);
 
         final ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(false);
@@ -138,6 +140,11 @@ public class MainActivity extends BaseActivity {
 
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.setCheckedItem(R.id.nav_home);
+    }
 
     public int daysBetween(Date d1, Date d2) {
         return (int)( (d2.getTime() - d1.getTime()) / (1000 * 60 * 60 * 24));

@@ -8,12 +8,12 @@
     tools:context=".ui.request.AddRequestActivity">
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/labelRequestDetails"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
-        android:text="Enter a leave request"
+        android:text="@string/title_activity_addrequest"
         android:textColor="@color/altText"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
@@ -25,10 +25,10 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
-        android:text="Type"
+        android:text="@string/prompt_type"
         android:textColor="@color/altText"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+        app:layout_constraintTop_toBottomOf="@+id/labelRequestDetails" />
 
     <RadioGroup
         android:id="@+id/radioButtonGroupAddRequest"
@@ -43,28 +43,28 @@
             android:id="@+id/radioButtonVacationAddRequest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Vacation"
+            android:text="@string/leaveType_vacation"
             android:textColor="@color/mainText" />
 
         <RadioButton
             android:id="@+id/radioButtonSpecialLeaveAddRequest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Special leave"
+            android:text="@string/leaveType_specialLeave"
             android:textColor="@color/mainText" />
 
         <RadioButton
             android:id="@+id/radioButtonOvertimeAddRequest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Overtime compensation"
+            android:text="@string/leaveType_overtimeCompensation"
             android:textColor="@color/mainText" />
 
         <RadioButton
             android:id="@+id/radioButtonWithoutPayAddRequest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Leave without pay"
+            android:text="@string/leaveType_withoutPay"
             android:textColor="@color/mainText" />
 
     </RadioGroup>
@@ -75,7 +75,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
-        android:text="From"
+        android:text="@string/prompt_from"
         android:textColor="@color/altText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioButtonGroupAddRequest" />
@@ -110,7 +110,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="164dp"
         android:layout_marginTop="40dp"
-        android:text="To"
+        android:text="@string/prompt_to"
         android:textColor="@color/altText"
         app:layout_constraintStart_toEndOf="@+id/labelFrom"
         app:layout_constraintTop_toBottomOf="@+id/radioButtonGroupAddRequest" />
@@ -121,7 +121,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
-        android:text="Remarks"
+        android:text="@string/prompt_remark"
         android:textColor="@color/altText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputDateStart" />
@@ -135,6 +135,7 @@
         android:gravity="start|top"
         android:inputType="textMultiLine"
         android:textColor="@color/mainText"
+        android:importantForAutofill="no"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelRemarks" />
 
@@ -145,7 +146,7 @@
         android:layout_marginStart="48dp"
         android:layout_marginTop="24dp"
         android:layout_marginEnd="48dp"
-        android:text="Save Request"
+        android:text="@string/action_saveNewRequest"
         android:textColor="@color/mainText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

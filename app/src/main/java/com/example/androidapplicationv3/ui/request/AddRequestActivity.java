@@ -122,7 +122,7 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
         } else if (selectedId == radioButton4.getId()) {
             typeId = new Long(4);
         } else {
-            Toast.makeText(this, getString(R.string.addrequest_notype), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.error_addrequest_notype), Toast.LENGTH_LONG).show();
             return false;
         }
 
@@ -136,10 +136,10 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
         boolean endDateMatching = matcherEndDate.matches();
 
         if (!startDateMatching){
-            Toast.makeText(this, getString(R.string.addrequest_nostartdate), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.error_addrequest_nostartdate), Toast.LENGTH_LONG).show();
             return false;
         } else if (!endDateMatching) {
-            Toast.makeText(this, getString(R.string.addrequest_noenddate), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.error_addrequest_noenddate), Toast.LENGTH_LONG).show();
             return false;
         }
 
@@ -147,7 +147,7 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
         Date dateFin = new SimpleDateFormat("dd/MM/yyyy").parse(endDate.getText().toString());
 
         if(daysBetween(dateDebut, dateFin) < 0){
-            Toast.makeText(this, getString(R.string.addrequest_enddatetoosmall), Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.error_addrequest_enddatetoosmall), Toast.LENGTH_LONG).show();
             return false;
         }
 
@@ -184,6 +184,7 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
                 Calendar.getInstance().get(Calendar.MONTH),
                 Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
         );
+
         datePickerDialog.show();
     }
 

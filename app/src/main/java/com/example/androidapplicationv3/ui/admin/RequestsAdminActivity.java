@@ -75,4 +75,10 @@ public class RequestsAdminActivity extends BaseActivity {
 
         recyclerView.setAdapter(adapter);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        navigationView.setCheckedItem(R.id.nav_adminrequests);
+    }
 }

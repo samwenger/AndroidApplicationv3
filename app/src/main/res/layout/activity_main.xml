@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainBackground"
     tools:context=".ui.MainActivity">
 
     <com.github.sundeepk.compactcalendarview.CompactCalendarView
@@ -15,8 +16,8 @@
         android:paddingRight="10dp"
         app:compactCalendarCurrentDayBackgroundColor="#00b6ee"
         app:compactCalendarCurrentSelectedDayBackgroundColor="#007fee"
-        app:compactCalendarMultiEventIndicatorColor="#000000"
         app:compactCalendarEventIndicatorStyle="fill_large_indicator"
+        app:compactCalendarMultiEventIndicatorColor="#000000"
         app:compactCalendarTargetHeight="250dp"
         app:compactCalendarTextColor="#000000"
         app:compactCalendarTextSize="12sp"
@@ -32,6 +33,7 @@
         android:layout_marginTop="12dp"
         android:gravity="center_vertical"
         android:text="Leave without pay"
+        android:textColor="@color/mainText"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/textView12"
         app:layout_constraintTop_toBottomOf="@+id/textView18" />
@@ -44,6 +46,7 @@
         android:layout_marginTop="55dp"
         android:gravity="center_vertical"
         android:text="Vacation"
+        android:textColor="@color/mainText"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/textView15"
         app:layout_constraintTop_toBottomOf="@+id/compactcalendar_view" />
@@ -66,6 +69,7 @@
         android:layout_marginTop="12dp"
         android:gravity="center_vertical"
         android:text="Special leave"
+        android:textColor="@color/mainText"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/textView14"
         app:layout_constraintTop_toBottomOf="@+id/textView16" />
@@ -88,6 +92,7 @@
         android:layout_marginTop="12dp"
         android:gravity="center_vertical"
         android:text="Overtime compensation"
+        android:textColor="@color/mainText"
         android:textSize="18sp"
         app:layout_constraintStart_toEndOf="@+id/textView13"
         app:layout_constraintTop_toBottomOf="@+id/textView17" />

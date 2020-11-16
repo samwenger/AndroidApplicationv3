@@ -78,6 +78,11 @@ public class RegisterUserActivity extends BaseActivity {
            inputUsername.requestFocus();
            return;
         }
+        if(!username.contains(".")) {
+            inputUsername.setError("Username must contain a dot '.'");
+            inputUsername.requestFocus();
+            return;
+        }
         if(password.isEmpty()) {
             inputPassword.setError("Please choose a new password");
             inputPassword.setText("");

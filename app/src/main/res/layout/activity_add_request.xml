@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/mainBackground"
     tools:context=".ui.request.AddRequestActivity">
 
     <TextView
@@ -13,6 +14,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="24dp"
         android:text="Enter a leave request"
+        android:textColor="@color/altText"
         android:textSize="25sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -24,6 +26,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:text="Type"
+        android:textColor="@color/altText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
@@ -40,25 +43,29 @@
             android:id="@+id/radioButtonVacationAddRequest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Vacation" />
+            android:text="Vacation"
+            android:textColor="@color/mainText" />
 
         <RadioButton
             android:id="@+id/radioButtonSpecialLeaveAddRequest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Special leave" />
+            android:text="Special leave"
+            android:textColor="@color/mainText" />
 
         <RadioButton
             android:id="@+id/radioButtonOvertimeAddRequest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Overtime compensation" />
+            android:text="Overtime compensation"
+            android:textColor="@color/mainText" />
 
         <RadioButton
             android:id="@+id/radioButtonWithoutPayAddRequest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Leave without pay" />
+            android:text="Leave without pay"
+            android:textColor="@color/mainText" />
 
     </RadioGroup>
 
@@ -69,6 +76,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
         android:text="From"
+        android:textColor="@color/altText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/radioButtonGroupAddRequest" />
 
@@ -79,7 +87,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="8dp"
         android:text="@string/prompt_pickdate"
-        android:textColor="#000000"
+        android:textColor="@color/mainText"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelFrom" />
@@ -91,7 +99,7 @@
         android:layout_marginStart="216dp"
         android:layout_marginTop="8dp"
         android:text="@string/prompt_pickdate"
-        android:textColor="#000000"
+        android:textColor="@color/mainText"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelFrom" />
@@ -103,6 +111,7 @@
         android:layout_marginStart="164dp"
         android:layout_marginTop="40dp"
         android:text="To"
+        android:textColor="@color/altText"
         app:layout_constraintStart_toEndOf="@+id/labelFrom"
         app:layout_constraintTop_toBottomOf="@+id/radioButtonGroupAddRequest" />
 
@@ -113,6 +122,7 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="40dp"
         android:text="Remarks"
+        android:textColor="@color/altText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputDateStart" />
 
@@ -124,6 +134,7 @@
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
+        android:textColor="@color/mainText"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/labelRemarks" />
 
@@ -135,6 +146,7 @@
         android:layout_marginTop="24dp"
         android:layout_marginEnd="48dp"
         android:text="Save Request"
+        android:textColor="@color/mainText"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/inputRemarks" />

@@ -19,8 +19,16 @@
     <string name="action_settings">Settings</string>
 
     <string name="pref_header_about">About the app</string>
-    <string name="pref_about_text">This application was developed to provide a possibility to demonstrate how the newly released Android Architecture Components could be implemented in an application.</string>
+    <string name="pref_about_text">This application was developped by Samuel Wenger and Robin Gallay during the class 644-1 Mobile Development at the HES-So Valais Wallis. She can be used for a small company with few employees. </string>
 
+    <string name="pref_colormode_title">Dark mode</string>
+    <string name="pref_colormode_text">Enable or disable the dark mode to change the design of your app</string>
+
+    <string name="pref_language_title">Language</string>
+    <string name="pref_language_text">Choose the language of the application</string>
+
+    <string name="pref_header_display">Display settings</string>
+    <string name="pref_header_system">System settings</string>
 
     <string name="menu_home">My calendar</string>
     <string name="menu_requests">My Requests</string>

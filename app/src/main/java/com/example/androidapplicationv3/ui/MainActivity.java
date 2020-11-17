@@ -132,8 +132,9 @@ public class MainActivity extends BaseActivity {
      */
     @Override
     protected void onResume() {
+        position = R.id.nav_home;
+        navigationView.setCheckedItem(position);
         super.onResume();
-        navigationView.setCheckedItem(R.id.nav_home);
     }
 
 

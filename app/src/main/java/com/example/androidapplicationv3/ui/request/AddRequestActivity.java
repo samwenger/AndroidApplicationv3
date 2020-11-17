@@ -1,6 +1,7 @@
 package com.example.androidapplicationv3.ui.request;
 
 import android.app.DatePickerDialog;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -19,6 +20,7 @@ import com.example.androidapplicationv3.database.converters.Converters;
 import com.example.androidapplicationv3.database.entity.RequestEntity;
 import com.example.androidapplicationv3.database.repository.RequestRepository;
 import com.example.androidapplicationv3.ui.BaseActivity;
+import com.example.androidapplicationv3.ui.MainActivity;
 import com.example.androidapplicationv3.util.OnAsyncEventListener;
 
 import java.text.ParseException;
@@ -102,13 +104,13 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
         // Set listener on delete button
         button.setOnClickListener(view -> {
             try {
-                if(addRequest())
-                    onBackPressed();
+                if(addRequest()){
+                   onBackPressed();
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         });
-
     }
 
 

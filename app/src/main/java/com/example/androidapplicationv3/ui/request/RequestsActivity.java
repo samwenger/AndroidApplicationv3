@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.example.androidapplicationv3.R;
@@ -34,7 +35,7 @@ public class RequestsActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_requests, frameLayout);
         setTitle(getString(R.string.title_activity_requests));
-        navigationView.setCheckedItem(R.id.nav_requests);
+        navigationView.setCheckedItem(position);
 
         requestsListView = findViewById(R.id.requestsListView);
 
@@ -85,7 +86,8 @@ public class RequestsActivity extends BaseActivity {
      */
     @Override
     protected void onResume() {
+        position = R.id.nav_requests;
+        navigationView.setCheckedItem(position);
         super.onResume();
-        navigationView.setCheckedItem(R.id.nav_requests);
     }
 }

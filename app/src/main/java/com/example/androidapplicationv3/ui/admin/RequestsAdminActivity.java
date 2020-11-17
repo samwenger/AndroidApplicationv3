@@ -85,7 +85,8 @@ public class RequestsAdminActivity extends BaseActivity {
      */
     @Override
     protected void onResume() {
+        position = R.id.nav_adminrequests;
+        navigationView.setCheckedItem(position);
         super.onResume();
-        navigationView.setCheckedItem(R.id.nav_adminrequests);
     }
 }

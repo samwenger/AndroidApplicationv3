@@ -64,6 +64,7 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         navigationView.setNavigationItemSelectedListener(this);
 
 
+
         // Check if the current user has admin access
         SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
         Boolean isAdmin = settings.getBoolean(BaseActivity.PREFS_ISADMIN, false);

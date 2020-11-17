@@ -102,13 +102,13 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
         // Set listener on delete button
         button.setOnClickListener(view -> {
             try {
-                if(addRequest())
-                    onBackPressed();
+                if(addRequest()){
+                   onBackPressed();
+                }
             } catch (ParseException e) {
                 e.printStackTrace();
             }
         });
-
     }
 
 

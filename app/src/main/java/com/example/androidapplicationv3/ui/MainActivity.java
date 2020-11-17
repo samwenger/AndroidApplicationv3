@@ -36,7 +36,7 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_main, frameLayout);
         setTitle(getString(R.string.title_activity_main));
-        navigationView.setCheckedItem(R.id.nav_home);
+        navigationView.setCheckedItem(position);
 
         // Get userId
         SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);

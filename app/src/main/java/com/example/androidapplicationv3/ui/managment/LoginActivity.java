@@ -2,6 +2,7 @@ package com.example.androidapplicationv3.ui.managment;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
+import androidx.lifecycle.LiveData;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -14,9 +15,12 @@ import android.widget.ProgressBar;
 
 import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.R;
+import com.example.androidapplicationv3.database.entity.UserEntity;
+import com.example.androidapplicationv3.database.firebase.UserLiveData;
 import com.example.androidapplicationv3.database.repository.UserRepository;
 import com.example.androidapplicationv3.ui.BaseActivity;
 import com.example.androidapplicationv3.ui.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -82,31 +86,29 @@ public class LoginActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             progressBar.setVisibility(View.VISIBLE);
-            userRepository.getUser(username, getApplication()).observe(LoginActivity.this, userEntity -> {
-                if ( userEntity != null) {
-                    if (userEntity.getPassword().equals(password)) {
+            userRepository.signIn(username, password, task -> {
+                if (task.isSuccessful()) {
 
-                        SharedPreferences.Editor editor = getSharedPreferences(BaseActivity.PREFS_NAME,0).edit();
-                        editor.putLong(BaseActivity.PREFS_IDUSER, userEntity.getIdUser());
-                        editor.putBoolean(BaseActivity.PREFS_ISADMIN, userEntity.getIsAdmin());
-                        editor.apply();
+                    UserLiveData currentUser = (UserLiveData) userRepository.getUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                //    UserEntity currentUser2 = userRepository.getUser(FirebaseAuth.getInstance().getCurrentUser().getUid()).getValue();
+                    UserEntity currentUser2 = userRepository.getUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        usernameView.setText("");
-                        passwordView.setText("");
-                    } else {
-                        passwordView.setError(getString(R.string.error_incorrect_password));
-                        passwordView.requestFocus();
-                        passwordView.setText("");
-                    }
-                    progressBar.setVisibility(View.GONE);
-                } else {
-                    usernameView.setError(getString(R.string.error_unknown_username));
-                    usernameView.requestFocus();
+
+                    SharedPreferences.Editor editor = getSharedPreferences(BaseActivity.PREFS_NAME,0).edit();
+                 //   editor.putBoolean(BaseActivity.PREFS_ISADMIN, currentUser.getIsAdmin());
+                    editor.apply();
+
+                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                    startActivity(intent);
+                    usernameView.setText("");
                     passwordView.setText("");
-                    progressBar.setVisibility(View.GONE);
+
+                } else {
+                    passwordView.setError(getString(R.string.error_incorrect_password));
+                    passwordView.requestFocus();
+                    passwordView.setText("");
                 }
+                progressBar.setVisibility(View.GONE);
             });
         }
     }

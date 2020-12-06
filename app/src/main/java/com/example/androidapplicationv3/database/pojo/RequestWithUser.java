@@ -10,16 +10,9 @@ import com.example.androidapplicationv3.database.entity.UserEntity;
 
 public class RequestWithUser {
 
-    @Embedded
     public RequestEntity request;
-
-    @Relation(parentColumn = "idType", entityColumn = "idType", entity = TypeEntity.class)
     public TypeEntity type;
-
-    @Relation(parentColumn = "idStatus", entityColumn = "idStatus", entity = StatusEntity.class)
     public StatusEntity status;
-
-    @Relation(parentColumn = "idUser", entityColumn = "idUser", entity = UserEntity.class)
     public UserEntity user;
 
 }

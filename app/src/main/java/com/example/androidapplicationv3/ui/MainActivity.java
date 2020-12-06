@@ -38,10 +38,6 @@ public class MainActivity extends BaseActivity {
         setTitle(getString(R.string.title_activity_main));
         navigationView.setCheckedItem(position);
 
-        // Get userId
-        SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
-        Long idUser = settings.getLong(BaseActivity.PREFS_IDUSER, 0);
-
 
         // setting up the action bar to display the month show in the calendar view
         final ActionBar actionBar = getSupportActionBar();
@@ -71,7 +67,7 @@ public class MainActivity extends BaseActivity {
         // Get data from the database
         requests = new ArrayList<>();
 
-        RequestListViewModel.Factory factory = new RequestListViewModel.Factory(getApplication(), idUser);
+        RequestListViewModel.Factory factory = new RequestListViewModel.Factory(getApplication());
         requestListViewModel = ViewModelProviders.of(this,factory).get(RequestListViewModel.class);
         requestListViewModel.getRequestsWithInfosByUser().observe(this, requestEntities -> {
             if(requestEntities != null) {
@@ -81,20 +77,20 @@ public class MainActivity extends BaseActivity {
                 for(RequestWithType request : requests){
 
                     // Get the status of the request and choose the corresponding color
-                    Long idStatut = request.request.getIdStatus();
+                    String idStatut = request.request.getIdStatus();
 
-                    if(idStatut != 3){
+                    if(idStatut != "refused"){
                         int color = 0;
-                        if(idStatut == 1){
+                        if(idStatut == "pending"){
                             color = Color.GRAY;
                         }
-                        else if (idStatut == 2){
-                            Long idType = request.request.getIdType();
-                            if(idType == 1){
+                        else if (idStatut == "approved"){
+                            String idType = request.request.getIdType();
+                            if(idType == "vacation"){
                                 color = hex2Rgb(R.color.colorTypeVacation);
-                            } else if(idType == 2){
+                            } else if(idType == "overtime"){
                                color = hex2Rgb(R.color.colorTypeSpecialLeave);
-                            } else if(idType == 3){
+                            } else if(idType == "special"){
                                 color = hex2Rgb(R.color.colorTypeOvertime);
                             } else {
                                 color = hex2Rgb(R.color.colorTypeLeaveWithoutPay);

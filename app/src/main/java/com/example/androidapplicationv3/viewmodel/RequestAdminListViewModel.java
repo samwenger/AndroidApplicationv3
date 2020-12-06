@@ -17,25 +17,21 @@ import java.util.List;
 
 public class RequestAdminListViewModel extends AndroidViewModel {
 
-    private Application application;
-
     private RequestRepository requestRepository;
 
     private final MediatorLiveData<List<RequestWithUser>> observableRequests;
 
     public RequestAdminListViewModel(@NonNull Application application,
-                                final Long idStatus,
+                                final String idStatus,
                                 RequestRepository requestRepository) {
         super(application);
-
-        this.application = application;
 
         this.requestRepository = requestRepository;
 
         observableRequests = new MediatorLiveData<>();
         observableRequests.setValue(null);
 
-        LiveData<List<RequestWithUser>> requests = this.requestRepository.getRequestByStatus(idStatus,application);
+        LiveData<List<RequestWithUser>> requests = this.requestRepository.getAllRequestsWithUser(idStatus);
 
         observableRequests.addSource(requests, observableRequests::setValue);
     }
@@ -48,11 +44,11 @@ public class RequestAdminListViewModel extends AndroidViewModel {
         @NonNull
         private final Application application;
 
-        private final Long idStatus;
+        private final String idStatus;
 
         private final RequestRepository requestRepository;
 
-        public Factory(@NonNull Application application, Long idStatus) {
+        public Factory(@NonNull Application application, String idStatus) {
             this.application = application;
             this.idStatus = idStatus;
             requestRepository = ((BaseApp) application).getRequestRepository();

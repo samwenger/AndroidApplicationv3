@@ -1,64 +1,40 @@
 package com.example.androidapplicationv3.database.entity;
 
-import androidx.room.Entity;
-import androidx.room.ForeignKey;
-import androidx.room.PrimaryKey;
+import com.google.firebase.database.Exclude;
 
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
-@Entity(tableName = "requests",
-        foreignKeys = {
-                @ForeignKey(
-                        entity = UserEntity.class,
-                        parentColumns = "idUser",
-                        childColumns = "idUser"
-                ),
-                @ForeignKey(
-                        entity = StatusEntity.class,
-                        parentColumns = "idStatus",
-                        childColumns = "idStatus"
-                ),
-                @ForeignKey(
-                        entity = TypeEntity.class,
-                        parentColumns = "idType",
-                        childColumns = "idType"
-                )}
-)
 public class RequestEntity {
 
-    @PrimaryKey(autoGenerate = true)
-    private Long idRequest;
-
-    private Long idUser;
+    private String idRequest;
 
     private Long dateDebut;
 
     private Long dateFin;
 
-    private Long idStatus;
+    private String idStatus;
 
-    private Long idType;
+    private String idType;
 
     private String remark;
+
+    private String idUser;
 
     public RequestEntity(){
     }
 
-    public RequestEntity(Long idUser, Long dateDebut, Long dateFin, Long idStatus, Long idType, String remark) {
-        this.idUser = idUser;
+    public RequestEntity(String idUser, Long dateDebut, Long dateFin, String idStatus, String idType, String remark) {
         this.dateDebut = dateDebut;
         this.dateFin = dateFin;
         this.idStatus = idStatus;
         this.idType = idType;
         this.remark=remark;
+        this.idUser = idUser;
     }
 
-    public Long getIdUser() {
-        return idUser;
-    }
-
-    public Long getIdType() {
+    public String getIdType() {
         return idType;
     }
 
@@ -70,11 +46,12 @@ public class RequestEntity {
         return dateFin;
     }
 
-    public Long getIdRequest() {
+    @Exclude
+    public String getIdRequest() {
         return idRequest;
     }
 
-    public Long getIdStatus() {
+    public String getIdStatus() {
         return idStatus;
     }
 
@@ -82,11 +59,12 @@ public class RequestEntity {
         return remark;
     }
 
-    public void setIdUser(Long idUser) {
-        this.idUser = idUser;
+    @Exclude
+    public String getIdUser() {
+        return idUser;
     }
 
-    public void setIdType(Long idType) {
+    public void setIdType(String idType) {
         this.idType = idType;
     }
 
@@ -98,16 +76,20 @@ public class RequestEntity {
         this.dateFin = dateFin;
     }
 
-    public void setIdRequest(Long idRequest) {
+    public void setIdRequest(String idRequest) {
         this.idRequest = idRequest;
     }
 
-    public void setIdStatus(Long idStatus) {
+    public void setIdStatus(String idStatus) {
         this.idStatus = idStatus;
     }
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public void setIdUser(String idUser) {
+        this.idUser = idUser;
     }
 
     @Override
@@ -122,6 +104,17 @@ public class RequestEntity {
     @Override
     public int hashCode() {
         return Objects.hash(idRequest);
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("dateDebut", dateDebut);
+        result.put("dateFin", dateFin);
+        result.put("status", idStatus);
+        result.put("type", idType);
+        result.put("remark", remark);
+        return result;
     }
 
 }

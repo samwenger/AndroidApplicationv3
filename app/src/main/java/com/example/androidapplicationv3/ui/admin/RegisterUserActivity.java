@@ -1,6 +1,7 @@
 package com.example.androidapplicationv3.ui.admin;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -8,9 +9,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.widget.SwitchCompat;
 
+import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.R;
-import com.example.androidapplicationv3.database.async.users.AddUser;
 import com.example.androidapplicationv3.database.entity.UserEntity;
+import com.example.androidapplicationv3.database.repository.UserRepository;
 import com.example.androidapplicationv3.ui.BaseActivity;
 import com.example.androidapplicationv3.util.OnAsyncEventListener;
 
@@ -18,6 +20,8 @@ public class RegisterUserActivity extends BaseActivity {
 
     private static final String TAG = "RegisterUserActivity";
     private static final int SAVE_USER = 1;
+
+    private UserRepository repository;
 
     private EditText inputLastname;
     private EditText inputFirstname;
@@ -34,6 +38,7 @@ public class RegisterUserActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         getLayoutInflater().inflate(R.layout.activity_register_user, frameLayout);
         setTitle(getString(R.string.title_activity_registeruser));
+        repository = ((BaseApp) getApplication()).getUserRepository();
         navigationView.setCheckedItem(position);
         initiateView();
 
@@ -142,17 +147,19 @@ public class RegisterUserActivity extends BaseActivity {
         newUser.setPassword(password);
         newUser.setIsAdmin(isAdmin);
 
-        new AddUser(getApplication(), new OnAsyncEventListener() {
+        repository.register(newUser, new OnAsyncEventListener() {
             @Override
             public void onSuccess() {
+                Log.d(TAG, "createUserWithEmail: success");
                 setResponse(true);
             }
 
             @Override
             public void onFailure(Exception e) {
+                Log.d(TAG, "createUserWithEmail: failure", e);
                 setResponse(false);
             }
-        }).execute(newUser);
+        });
 
     }
 

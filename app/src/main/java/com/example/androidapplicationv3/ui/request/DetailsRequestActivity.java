@@ -55,7 +55,8 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
         initiateView();
 
         // get the id of the request to show
-        Long requestId = getIntent().getLongExtra("requestId", 0);
+        String requestId = getIntent().getStringExtra("requestId");
+        String userId = getIntent().getStringExtra("userId");
 
         // set listener on start and date to open a datePickerDialog
         inputDateStart.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +80,7 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
         });
 
         // Get data from the database
-        RequestViewModel.Factory factory = new RequestViewModel.Factory(getApplication(), requestId);
+        RequestViewModel.Factory factory = new RequestViewModel.Factory(getApplication(), requestId, userId);
         viewModel = ViewModelProviders.of(this, factory).get(RequestViewModel.class);
         viewModel.getRequest().observe(this, requestEntity -> {
             if (requestEntity != null) {
@@ -229,7 +230,7 @@ public class DetailsRequestActivity extends BaseActivity implements DatePickerDi
         request.request.setDateDebut(converters.dateToTimestamp(dateDebut));
         request.request.setDateFin(converters.dateToTimestamp(dateFin));
         request.request.setRemark(remark);
-        request.request.setIdStatus(new Long(1));
+        request.request.setIdStatus("pending");
 
         viewModel.updateRequest(request.request, new OnAsyncEventListener() {
             @Override

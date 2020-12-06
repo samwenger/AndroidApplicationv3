@@ -19,16 +19,12 @@ public class RequestViewModel extends AndroidViewModel {
 
     private RequestRepository requestRepository;
 
-    private Application application;
-
     // MediatorLiveData can observe other LiveData objects and react on their emissions.
     private final MediatorLiveData<RequestWithUser> observableRequest;
 
     public RequestViewModel(@NonNull Application application,
-                           final Long idRequest, RequestRepository requestRepository) {
+                           final String idRequest, final String idUser, RequestRepository requestRepository) {
         super(application);
-
-        this.application = application;
 
         this.requestRepository = requestRepository;
 
@@ -36,7 +32,7 @@ public class RequestViewModel extends AndroidViewModel {
         // set by default null, until we get data from the database.
         observableRequest.setValue(null);
 
-        LiveData<RequestWithUser> request = requestRepository.getRequestWithInfos(idRequest, application);
+        LiveData<RequestWithUser> request = requestRepository.getRequest(idUser, idRequest);
 
         // observe the changes of the client entity from the database and forward them
         observableRequest.addSource(request, observableRequest::setValue);
@@ -47,20 +43,22 @@ public class RequestViewModel extends AndroidViewModel {
         @NonNull
         private final Application application;
 
-        private final Long requestId;
+        private final String requestId;
+        private final String userId;
 
         private final RequestRepository requestRepository;
 
-        public Factory(@NonNull Application application, Long requestId) {
+        public Factory(@NonNull Application application, String requestId, String userId) {
             this.application = application;
             this.requestId = requestId;
+            this.userId = userId;
             requestRepository = ((BaseApp) application).getRequestRepository();
         }
 
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new RequestViewModel(application, requestId, requestRepository);
+            return (T) new RequestViewModel(application, requestId, userId, requestRepository);
         }
     }
 
@@ -69,16 +67,11 @@ public class RequestViewModel extends AndroidViewModel {
     }
 
     public void updateRequest(RequestEntity request, OnAsyncEventListener callback) {
-        requestRepository.update(request, callback, application);
-    }
-
-
-    public void addRequest(RequestEntity request, OnAsyncEventListener callback) {
-        requestRepository.insert(request, callback, application);
+        requestRepository.update(request, callback);
     }
 
     public void deleteRequest(RequestEntity request, OnAsyncEventListener callback) {
-        requestRepository.delete(request, callback, application);
+        requestRepository.delete(request, callback);
     }}
 
 

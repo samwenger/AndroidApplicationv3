@@ -1,18 +1,15 @@
 package com.example.androidapplicationv3.database.entity;
 
-import androidx.room.Entity;
+import com.google.firebase.database.Exclude;
 
-import androidx.room.Index;
-import androidx.room.PrimaryKey;
-
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
 
-@Entity(tableName = "users", indices = {@Index(value = "login", unique = true)})
 public class UserEntity {
 
-    @PrimaryKey(autoGenerate = true)
-    private Long idUser;
+    private String idUser;
 
     private String lastname;
 
@@ -22,25 +19,23 @@ public class UserEntity {
 
     private String password;
 
-    private int remainingDays;
-
     private boolean isAdmin;
 
 
     public UserEntity() {
     }
 
-    public UserEntity(String lastname, String firstname, String login, String password, int remainingDays, Boolean isAdmin){
+    public UserEntity(String lastname, String firstname, String login, String password, Boolean isAdmin){
         this.lastname = lastname;
         this.firstname = firstname;
         this.login = login;
         this.password = password;
-        this.remainingDays = remainingDays;
         this.isAdmin = isAdmin;
     }
 
 
-    public Long getIdUser() {
+    @Exclude
+    public String getIdUser() {
         return idUser;
     }
 
@@ -52,23 +47,21 @@ public class UserEntity {
         return firstname;
     }
 
+    @Exclude
     public String getLogin() {
         return login;
     }
 
+    @Exclude
     public String getPassword() {
         return password;
-    }
-
-    public int getRemainingDays() {
-        return remainingDays;
     }
 
     public boolean getIsAdmin() {
         return isAdmin;
     }
 
-    public void setIdUser(Long idUser) {
+    public void setIdUser(String idUser) {
         this.idUser = idUser;
     }
 
@@ -88,10 +81,6 @@ public class UserEntity {
         this.password = password;
     }
 
-    public void setRemainingDays(int remainingDays) {
-        this.remainingDays = remainingDays;
-    }
-
     public void setIsAdmin(Boolean isAdmin) {
         this.isAdmin = isAdmin;
     }
@@ -106,6 +95,17 @@ public class UserEntity {
 
     @Override
     public int hashCode() {
-        return Objects.hash(idUser, lastname, firstname, login, password, remainingDays);
+        return Objects.hash(idUser, lastname, firstname, login, password);
     }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("lastname", lastname);
+        result.put("firstname", firstname);
+        result.put("isAdmin", isAdmin);
+
+        return result;
+    }
+
 }

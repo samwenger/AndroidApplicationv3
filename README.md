@@ -27,12 +27,13 @@ Two users are created by default when the application is first launched.
 
 The next user has the role of employee :
 ```
-username: robin.gallay
+username: robin.gallay@students.hevs.ch
 password: AdminHevs01
 ```
 
 The next user has the roles of employee and manager :
 ```
-username: samuel.wenger
+username: samuel.wenger@students.hevs.ch
 password: AdminHevs01
 ```
+Other users can be created using the register form.

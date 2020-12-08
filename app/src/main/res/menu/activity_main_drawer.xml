@@ -34,11 +34,5 @@
             android:iconTint="@color/mainText"
             android:title="@string/menu_managerequests"
             android:visible="false" />
-        <item
-            android:id="@+id/nav_registeruser"
-            android:icon="@drawable/ic_baseline_person_add_24"
-            android:iconTint="@color/mainText"
-            android:title="@string/menu_register"
-            android:visible="false" />
     </group>
 </menu>

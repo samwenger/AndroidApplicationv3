@@ -17,25 +17,20 @@ import java.util.List;
 
 public class RequestListViewModel extends AndroidViewModel {
 
-    private Application application;
-
     private RequestRepository requestRepository;
 
     private final MediatorLiveData<List<RequestWithType>> observableRequests;
 
     public RequestListViewModel(@NonNull Application application,
-                                final Long idUser,
                                 RequestRepository requestRepository) {
         super(application);
-
-        this.application = application;
 
         this.requestRepository = requestRepository;
 
         observableRequests = new MediatorLiveData<>();
         observableRequests.setValue(null);
 
-        LiveData<List<RequestWithType>> requests = this.requestRepository.getRequestByUserWithInfos(idUser,application);
+        LiveData<List<RequestWithType>> requests = this.requestRepository.getCurrentUserRequests();
 
         observableRequests.addSource(requests, observableRequests::setValue);
     }
@@ -48,13 +43,10 @@ public class RequestListViewModel extends AndroidViewModel {
         @NonNull
         private final Application application;
 
-        private final Long userId;
-
         private final RequestRepository requestRepository;
 
-        public Factory(@NonNull Application application, Long userId) {
+        public Factory(@NonNull Application application) {
             this.application = application;
-            this.userId = userId;
             requestRepository = ((BaseApp) application).getRequestRepository();
         }
 
@@ -62,7 +54,7 @@ public class RequestListViewModel extends AndroidViewModel {
         @Override
         public <T extends ViewModel> T create(Class<T> modelClass) {
             //noinspection unchecked
-            return (T) new RequestListViewModel(application, userId, requestRepository);
+            return (T) new RequestListViewModel(application, requestRepository);
         }
     }
 

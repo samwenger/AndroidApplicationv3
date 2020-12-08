@@ -1,14 +1,13 @@
 package com.example.androidapplicationv3.ui.request;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.View;
 
 import com.example.androidapplicationv3.R;
 import com.example.androidapplicationv3.adapter.RecyclerAdapterRequestsForUser;
@@ -47,11 +46,6 @@ public class RequestsActivity extends BaseActivity {
         requestsListView.addItemDecoration(dividerItemDecoration);
 
 
-        // Get the id of the current user
-        SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
-        Long idUser = settings.getLong(BaseActivity.PREFS_IDUSER, 0);
-
-
         // Get data from the database
         requests = new ArrayList<>();
         adapter = new RecyclerAdapterRequestsForUser<>(new RecyclerViewItemClickListener() {
@@ -63,12 +57,13 @@ public class RequestsActivity extends BaseActivity {
                                 Intent.FLAG_ACTIVITY_NO_HISTORY
                 );
                 intent.putExtra("requestId", requests.get(position).request.getIdRequest());
+                intent.putExtra("userId", requests.get(position).request.getIdUser());
                 startActivity(intent);
             }
 
         });
 
-        RequestListViewModel.Factory factory = new RequestListViewModel.Factory(getApplication(), idUser);
+        RequestListViewModel.Factory factory = new RequestListViewModel.Factory(getApplication());
         requestListViewModel = ViewModelProviders.of(this,factory).get(RequestListViewModel.class);
         requestListViewModel.getRequestsWithInfosByUser().observe(this, requestEntities -> {
             if(requestEntities != null) {

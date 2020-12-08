@@ -1,5 +1,6 @@
 package com.example.androidapplicationv3.ui.managment;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
@@ -14,11 +15,21 @@ import android.widget.ProgressBar;
 
 import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.R;
+import com.example.androidapplicationv3.database.entity.UserEntity;
 import com.example.androidapplicationv3.database.repository.UserRepository;
 import com.example.androidapplicationv3.ui.BaseActivity;
 import com.example.androidapplicationv3.ui.MainActivity;
+import com.example.androidapplicationv3.ui.admin.RegisterUserActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private static final String TAG = "LoginActivity";
 
     private EditText usernameView;
     private EditText passwordView;
@@ -45,6 +56,10 @@ public class LoginActivity extends AppCompatActivity {
 
         Button loginButton = findViewById(R.id.login);
         loginButton.setOnClickListener(view -> attemptLogin());
+
+        Button registerButton = findViewById(R.id.register);
+        registerButton.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, RegisterUserActivity.class)));
+
     }
 
     /**
@@ -82,31 +97,38 @@ public class LoginActivity extends AppCompatActivity {
             focusView.requestFocus();
         } else {
             progressBar.setVisibility(View.VISIBLE);
-            userRepository.getUser(username, getApplication()).observe(LoginActivity.this, userEntity -> {
-                if ( userEntity != null) {
-                    if (userEntity.getPassword().equals(password)) {
+            userRepository.signIn(username, password, task -> {
+                if (task.isSuccessful()) {
 
-                        SharedPreferences.Editor editor = getSharedPreferences(BaseActivity.PREFS_NAME,0).edit();
-                        editor.putLong(BaseActivity.PREFS_IDUSER, userEntity.getIdUser());
-                        editor.putBoolean(BaseActivity.PREFS_ISADMIN, userEntity.getIsAdmin());
-                        editor.apply();
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            UserEntity user = snapshot.getValue(UserEntity.class);
 
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        usernameView.setText("");
-                        passwordView.setText("");
-                    } else {
-                        passwordView.setError(getString(R.string.error_incorrect_password));
-                        passwordView.requestFocus();
-                        passwordView.setText("");
-                    }
-                    progressBar.setVisibility(View.GONE);
+                            SharedPreferences.Editor editor = getSharedPreferences(BaseActivity.PREFS_NAME,0).edit();
+                            editor.putBoolean(BaseActivity.PREFS_ISADMIN, user.getIsAdmin());
+                            editor.apply();
+
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            usernameView.setText("");
+                            passwordView.setText("");
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
+
+
+
                 } else {
-                    usernameView.setError(getString(R.string.error_unknown_username));
-                    usernameView.requestFocus();
+                    passwordView.setError(getString(R.string.error_incorrect_password));
+                    passwordView.requestFocus();
                     passwordView.setText("");
-                    progressBar.setVisibility(View.GONE);
                 }
+                progressBar.setVisibility(View.GONE);
             });
         }
     }
@@ -126,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
      * @return
      */
     private boolean isUsernameValid(String username) {
-        return username.contains(".") && username.length()>=6;
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches();
     }
 
     /**

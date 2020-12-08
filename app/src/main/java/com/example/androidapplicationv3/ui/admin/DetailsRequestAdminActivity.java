@@ -47,23 +47,23 @@ public class DetailsRequestAdminActivity extends BaseActivity {
         buttonAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveStatus(new Long(2));
-
+                saveStatus("approved");
             }
         });
 
         buttonDeny.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                saveStatus(new Long(3));
+                saveStatus("refused");
             }
         });
 
         // get the id of the request to show
-        Long requestId = getIntent().getLongExtra("requestId", 0);
+        String requestId = getIntent().getStringExtra("requestId");
+        String userId = getIntent().getStringExtra("userId");
 
         // get LiveData
-        RequestViewModel.Factory factory = new RequestViewModel.Factory(getApplication(), requestId);
+        RequestViewModel.Factory factory = new RequestViewModel.Factory(getApplication(), requestId, userId);
         viewModel = ViewModelProviders.of(this, factory).get(RequestViewModel.class);
         viewModel.getRequest().observe(this, requestEntity -> {
             if (requestEntity != null) {
@@ -111,12 +111,12 @@ public class DetailsRequestAdminActivity extends BaseActivity {
 
     /**
      * Update request's status when admin click on validate or deny
-     * @param id
+     * @param idStatus
      * @return
      */
-    private boolean saveStatus(Long id){
+    private boolean saveStatus(String idStatus){
 
-        request.request.setIdStatus(id);
+        request.request.setIdStatus(idStatus);
 
         viewModel.updateRequest(request.request, new OnAsyncEventListener() {
             @Override

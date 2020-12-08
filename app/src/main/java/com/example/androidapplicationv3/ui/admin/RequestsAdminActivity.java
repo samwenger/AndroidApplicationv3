@@ -1,17 +1,16 @@
 package com.example.androidapplicationv3.ui.admin;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-
 import com.example.androidapplicationv3.R;
 import com.example.androidapplicationv3.adapter.RecyclerAdapterRequestsForAdmin;
-import com.example.androidapplicationv3.adapter.RecyclerAdapterRequestsForUser;
 import com.example.androidapplicationv3.database.pojo.RequestWithUser;
 import com.example.androidapplicationv3.ui.BaseActivity;
 import com.example.androidapplicationv3.util.RecyclerViewItemClickListener;
@@ -61,17 +60,22 @@ public class RequestsAdminActivity extends BaseActivity {
                                 Intent.FLAG_ACTIVITY_NO_HISTORY
                 );
                 intent.putExtra("requestId", requests.get(position).request.getIdRequest());
+                intent.putExtra("userId", requests.get(position).request.getIdUser());
                 startActivity(intent);
             }
         });
 
-        requests = new ArrayList<>();
 
-        RequestAdminListViewModel.Factory factory = new RequestAdminListViewModel.Factory(getApplication(), new Long(1));
+        RequestAdminListViewModel.Factory factory = new RequestAdminListViewModel.Factory(getApplication(), "pending");
         requestListViewModel = ViewModelProviders.of(this,factory).get(RequestAdminListViewModel.class);
-        requestListViewModel.getRequestByStatus().observe(this, requestEntities -> {
+        requestListViewModel.getAllRequests().observe(this, requestEntities -> {
             if(requestEntities != null) {
-                requests = requestEntities;
+                requests = new ArrayList<>();
+                for(RequestWithUser requestWithUser : requestEntities){
+                    if(requestWithUser.request.getIdStatus().equals("pending")) {
+                        requests.add(requestWithUser);
+                    }
+                }
                 adapter.setData(requests);
             }
         });

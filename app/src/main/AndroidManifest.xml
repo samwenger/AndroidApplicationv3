@@ -26,6 +26,15 @@
         </activity>
 
         <activity
+            android:name=".ui.admin.RegisterUserActivity"
+            android:label="@string/title_activity_registeruser"
+            android:parentActivityName=".ui.managment.LoginActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.managment.LoginActivity" />
+        </activity>
+
+        <activity
             android:name=".ui.MainActivity"
             android:label="@string/title_activity_main"
             android:parentActivityName=".ui.managment.LoginActivity"
@@ -90,15 +99,7 @@
 
 
 
-        <activity
-            android:name=".ui.admin.RegisterUserActivity"
-            android:label="@string/title_activity_registeruser"
-            android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ui.MainActivity" />
-        </activity>
+
 
 
         <activity

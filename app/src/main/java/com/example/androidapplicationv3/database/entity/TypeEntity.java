@@ -1,30 +1,36 @@
 package com.example.androidapplicationv3.database.entity;
 
-import androidx.annotation.NonNull;
-import androidx.room.Entity;
+import com.google.firebase.database.Exclude;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
-@Entity(tableName = "types", primaryKeys = "idType")
 public class TypeEntity {
 
-    @NonNull
-    private Long idType;
-
-    @NonNull
+    private String idType;
     private String type;
 
-    public TypeEntity(Long idType, String type) {
+    public TypeEntity() {
+
+    }
+
+    public TypeEntity(String idType, String type) {
         this.idType=idType;
         this.type = type;
     }
 
-    public Long getIdType() {
+    @Exclude
+    public String getIdType() {
         return idType;
     }
 
     public String getType() {
         return type;
+    }
+
+    public void setIdType(String idType) {
+        this.idType = idType;
     }
 
     public void setType(String type) {
@@ -42,5 +48,12 @@ public class TypeEntity {
     @Override
     public int hashCode() {
         return Objects.hash(idType);
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("name", type);
+        return result;
     }
 }

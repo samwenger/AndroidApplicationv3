@@ -1,35 +1,41 @@
 package com.example.androidapplicationv3.database.entity;
 
-import androidx.annotation.NonNull;
-import androidx.room.Entity;
+import com.google.firebase.database.Exclude;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 
-@Entity(tableName = "status",
-        primaryKeys ="idStatus")
 
 public class StatusEntity {
-    @NonNull
-    private Long idStatus;
 
-    @NonNull
-    private String status;
+    private String idStatus;
+    private String name;
 
-    public StatusEntity(Long idStatus, String status) {
-        this.idStatus=idStatus;
-        this.status = status;
+    public StatusEntity() {
+
     }
 
-    public Long getIdStatus() {
+    public StatusEntity(String idStatus, String status) {
+        this.idStatus=idStatus;
+        this.name = status;
+    }
+
+    @Exclude
+    public String getIdStatus() {
         return idStatus;
     }
 
     public String getStatus() {
-        return status;
+        return name;
+    }
+
+    public void setIdStatus(String idStatus) {
+        this.idStatus = idStatus;
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.name = status;
     }
 
     @Override
@@ -43,6 +49,13 @@ public class StatusEntity {
     @Override
     public int hashCode() {
         return Objects.hash(idStatus);
+    }
+
+    @Exclude
+    public Map<String, Object> toMap() {
+        HashMap<String, Object> result = new HashMap<>();
+        result.put("name", name);
+        return result;
     }
 
 }

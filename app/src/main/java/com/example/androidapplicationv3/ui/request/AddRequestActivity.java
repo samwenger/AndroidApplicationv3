@@ -1,7 +1,6 @@
 package com.example.androidapplicationv3.ui.request;
 
 import android.app.DatePickerDialog;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -14,12 +13,12 @@ import android.widget.Toast;
 
 import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.R;
-import com.example.androidapplicationv3.database.async.requests.AddRequest;
 import com.example.androidapplicationv3.database.converters.Converters;
 import com.example.androidapplicationv3.database.entity.RequestEntity;
 import com.example.androidapplicationv3.database.repository.RequestRepository;
 import com.example.androidapplicationv3.ui.BaseActivity;
 import com.example.androidapplicationv3.util.OnAsyncEventListener;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -46,7 +45,7 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
     private TextView startDate;
     private TextView endDate;
     private EditText remarks;
-    private Long idUser;
+    private String idUser;
 
     private Toast toast;
 
@@ -77,8 +76,7 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
 
 
         // Get the current user ID
-        SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
-        idUser = settings.getLong(BaseActivity.PREFS_IDUSER, 0);
+        idUser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
         // Set listener on start and date to open a datePickerDialog
@@ -120,17 +118,17 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
     private boolean addRequest() throws ParseException {
 
         int selectedId = radioButtonGroup.getCheckedRadioButtonId();
-        Long typeId = null;
+        String typeId = null;
 
         // Get the selected type of leave and defining the ID to store in the database
         if(selectedId == radioButton1.getId()){
-            typeId = new Long(1);
+            typeId = "vacation";
         } else if (selectedId == radioButton2.getId()) {
-            typeId = new Long(2);
+            typeId = "special";
         } else if (selectedId == radioButton3.getId()) {
-            typeId = new Long(3);
+            typeId = "overtime";
         } else if (selectedId == radioButton4.getId()) {
-            typeId = new Long(4);
+            typeId = "withoutpay";
         } else {
             Toast.makeText(this, getString(R.string.error_addrequest_notype), Toast.LENGTH_LONG).show();
             return false;
@@ -172,12 +170,12 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
         newRequest.setDateDebut(converters.dateToTimestamp(dateDebut));
         newRequest.setDateFin(converters.dateToTimestamp(dateFin));
         newRequest.setRemark(remarks.getText().toString());
-        newRequest.setIdStatus(new Long(1));
+        newRequest.setIdStatus("pending");
         newRequest.setIdType(typeId);
 
 
         // Saving into database
-        new AddRequest(getApplication(), new OnAsyncEventListener() {
+        requestRepository.insert(newRequest, new OnAsyncEventListener() {
             @Override
             public void onSuccess() {
                 setResponse(true);
@@ -187,7 +185,7 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
             public void onFailure(Exception e) {
                 setResponse(false);
             }
-        }).execute(newRequest);
+        });
 
         return true;
     }

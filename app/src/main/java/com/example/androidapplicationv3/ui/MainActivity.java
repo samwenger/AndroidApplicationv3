@@ -1,12 +1,11 @@
 package com.example.androidapplicationv3.ui;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidapplicationv3.R;
 import com.example.androidapplicationv3.database.converters.Converters;
@@ -38,10 +37,6 @@ public class MainActivity extends BaseActivity {
         setTitle(getString(R.string.title_activity_main));
         navigationView.setCheckedItem(position);
 
-        // Get userId
-        SharedPreferences settings = getSharedPreferences(BaseActivity.PREFS_NAME, 0);
-        Long idUser = settings.getLong(BaseActivity.PREFS_IDUSER, 0);
-
 
         // setting up the action bar to display the month show in the calendar view
         final ActionBar actionBar = getSupportActionBar();
@@ -71,8 +66,8 @@ public class MainActivity extends BaseActivity {
         // Get data from the database
         requests = new ArrayList<>();
 
-        RequestListViewModel.Factory factory = new RequestListViewModel.Factory(getApplication(), idUser);
-        requestListViewModel = ViewModelProviders.of(this,factory).get(RequestListViewModel.class);
+        RequestListViewModel.Factory factory = new RequestListViewModel.Factory(getApplication());
+        requestListViewModel = new ViewModelProvider(this,factory).get(RequestListViewModel.class);
         requestListViewModel.getRequestsWithInfosByUser().observe(this, requestEntities -> {
             if(requestEntities != null) {
                 requests = requestEntities;
@@ -81,20 +76,20 @@ public class MainActivity extends BaseActivity {
                 for(RequestWithType request : requests){
 
                     // Get the status of the request and choose the corresponding color
-                    Long idStatut = request.request.getIdStatus();
+                    String idStatut = request.request.getIdStatus();
 
-                    if(idStatut != 3){
+                    if(!idStatut.equals("refused")){
                         int color = 0;
-                        if(idStatut == 1){
+                        if(idStatut.equals("pending")){
                             color = Color.GRAY;
                         }
-                        else if (idStatut == 2){
-                            Long idType = request.request.getIdType();
-                            if(idType == 1){
+                        else if (idStatut.equals("approved")){
+                            String idType = request.request.getIdType();
+                            if(idType.equals("vacation")){
                                 color = hex2Rgb(R.color.colorTypeVacation);
-                            } else if(idType == 2){
+                            } else if(idType.equals("overtime")){
                                color = hex2Rgb(R.color.colorTypeSpecialLeave);
-                            } else if(idType == 3){
+                            } else if(idType.equals("special")){
                                 color = hex2Rgb(R.color.colorTypeOvertime);
                             } else {
                                 color = hex2Rgb(R.color.colorTypeLeaveWithoutPay);

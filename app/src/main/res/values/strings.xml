@@ -6,7 +6,6 @@
     <string name="title_activity_addrequest">Enter a leave request</string>
     <string name="title_activity_detailsrequest">Request details</string>
     <string name="title_activity_detailsrequestadmin">Request Details</string>
-    <string name="title_activity_registeruser">Register a new user</string>
     <string name="title_activity_main">Overview</string>
     <string name="title_activity_adminrequests">Pending requests</string>
     <string name="title_activity_requests">My requests</string>
@@ -21,7 +20,7 @@
     <string name="menu_logout">Logout</string>
     <string name="menu_managerequests">Manage pending requests</string>
     <string name="menu_register">Register a new user</string>
-
+    <string name="title_activity_registeruser">Register a new user</string>
     <string name="action_settings">Settings</string>
 
     <!-- Leave types -->
@@ -56,6 +55,7 @@
     <string name="action_save">SAVE</string>
     <string name="action_login">Login</string>
     <string name="action_saveNewRequest">Send request</string>
+    <string name="action_register">Register</string>
 
 
     <!-- About and settings -->
@@ -88,8 +88,7 @@
     <string name="error_register_no_lastname">Please fill in your lastname</string>
     <string name="error_register_no_firstname">Please fill in your firstname</string>
     <string name="error_register_no_username">Please choose an username</string>
-    <string name="error_register_username_too_short">This username is too short (at least 6 characters)</string>
-    <string name="error_register_invalid_username">Username must contain a dot (.)</string>
+    <string name="error_register_invalid_username">Username must be an email</string>
     <string name="error_register_no_password">Please choose a new password</string>
     <string name="error_register_password_too_short">This password is too short (at least 6 characters)</string>
     <string name="error_register_username_alreadyinuse">Username already in use</string>

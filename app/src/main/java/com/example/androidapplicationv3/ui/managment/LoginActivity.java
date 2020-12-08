@@ -1,8 +1,8 @@
 package com.example.androidapplicationv3.ui.managment;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
-import androidx.lifecycle.LiveData;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,13 +16,20 @@ import android.widget.ProgressBar;
 import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.R;
 import com.example.androidapplicationv3.database.entity.UserEntity;
-import com.example.androidapplicationv3.database.firebase.UserLiveData;
 import com.example.androidapplicationv3.database.repository.UserRepository;
 import com.example.androidapplicationv3.ui.BaseActivity;
 import com.example.androidapplicationv3.ui.MainActivity;
+import com.example.androidapplicationv3.ui.admin.RegisterUserActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
+
+    private static final String TAG = "LoginActivity";
 
     private EditText usernameView;
     private EditText passwordView;
@@ -49,6 +56,10 @@ public class LoginActivity extends AppCompatActivity {
 
         Button loginButton = findViewById(R.id.login);
         loginButton.setOnClickListener(view -> attemptLogin());
+
+        Button registerButton = findViewById(R.id.register);
+        registerButton.setOnClickListener(view -> startActivity(new Intent(LoginActivity.this, RegisterUserActivity.class)));
+
     }
 
     /**
@@ -89,19 +100,28 @@ public class LoginActivity extends AppCompatActivity {
             userRepository.signIn(username, password, task -> {
                 if (task.isSuccessful()) {
 
-                    UserLiveData currentUser = (UserLiveData) userRepository.getUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
-                //    UserEntity currentUser2 = userRepository.getUser(FirebaseAuth.getInstance().getCurrentUser().getUid()).getValue();
-                    UserEntity currentUser2 = userRepository.getUser(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            UserEntity user = snapshot.getValue(UserEntity.class);
+
+                            SharedPreferences.Editor editor = getSharedPreferences(BaseActivity.PREFS_NAME,0).edit();
+                            editor.putBoolean(BaseActivity.PREFS_ISADMIN, user.getIsAdmin());
+                            editor.apply();
+
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                            usernameView.setText("");
+                            passwordView.setText("");
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                        }
+                    });
 
 
-                    SharedPreferences.Editor editor = getSharedPreferences(BaseActivity.PREFS_NAME,0).edit();
-                 //   editor.putBoolean(BaseActivity.PREFS_ISADMIN, currentUser.getIsAdmin());
-                    editor.apply();
-
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    startActivity(intent);
-                    usernameView.setText("");
-                    passwordView.setText("");
 
                 } else {
                     passwordView.setError(getString(R.string.error_incorrect_password));
@@ -128,7 +148,7 @@ public class LoginActivity extends AppCompatActivity {
      * @return
      */
     private boolean isUsernameValid(String username) {
-        return username.contains(".") && username.length()>=6;
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches();
     }
 
     /**

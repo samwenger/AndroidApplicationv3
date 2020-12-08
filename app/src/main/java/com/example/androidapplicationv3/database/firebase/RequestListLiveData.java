@@ -7,6 +7,7 @@ import androidx.lifecycle.LiveData;
 
 import com.example.androidapplicationv3.database.entity.RequestEntity;
 import com.example.androidapplicationv3.database.pojo.RequestWithType;
+import com.example.androidapplicationv3.database.repository.RequestRepository;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -26,7 +27,7 @@ public class RequestListLiveData extends LiveData<List<RequestWithType>> {
 
     public RequestListLiveData(DatabaseReference ref) {
         reference = ref;
-        this.idUser = ref.getParent().getKey();
+        this.idUser = ref.getKey();
     }
 
 
@@ -63,10 +64,11 @@ public class RequestListLiveData extends LiveData<List<RequestWithType>> {
             requestWithType.request.setIdRequest(childSnapshot.getKey());
             requestWithType.request.setIdUser(idUser);
 
-            requestWithType.status.setStatus(requestWithType.request.getIdStatus());
-            requestWithType.type.setType(requestWithType.request.getIdType());
+            requestWithType.status = RequestRepository.getInstance().getStatusById(requestWithType.request.getIdStatus());
+            requestWithType.type = RequestRepository.getInstance().getTypeById(requestWithType.request.getIdType());
 
             requests.add(requestWithType);
+
         }
         return requests;
     }

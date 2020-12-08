@@ -1,7 +1,6 @@
 package com.example.androidapplicationv3.ui.request;
 
 import android.app.DatePickerDialog;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -125,9 +124,9 @@ public class AddRequestActivity extends BaseActivity implements DatePickerDialog
         if(selectedId == radioButton1.getId()){
             typeId = "vacation";
         } else if (selectedId == radioButton2.getId()) {
-            typeId = "overtime";
-        } else if (selectedId == radioButton3.getId()) {
             typeId = "special";
+        } else if (selectedId == radioButton3.getId()) {
+            typeId = "overtime";
         } else if (selectedId == radioButton4.getId()) {
             typeId = "withoutpay";
         } else {

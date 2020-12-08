@@ -10,6 +10,4 @@ public class RequestWithType {
     public TypeEntity type;
     public StatusEntity status;
 
-    // @Relation(parentColumn = "idStatus", entityColumn = "idStatus", entity = StatusEntity.class)
-
 }

@@ -65,7 +65,7 @@ public class RequestAdminListViewModel extends AndroidViewModel {
     /**
      * Expose the LiveData ClientAccounts query so the UI can observe it.
      */
-    public LiveData<List<RequestWithUser>> getRequestByStatus() {
+    public LiveData<List<RequestWithUser>> getAllRequests() {
         return observableRequests;
     }
 

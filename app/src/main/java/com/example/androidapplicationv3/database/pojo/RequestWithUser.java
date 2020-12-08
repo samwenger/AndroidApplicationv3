@@ -1,8 +1,5 @@
 package com.example.androidapplicationv3.database.pojo;
 
-import androidx.room.Embedded;
-import androidx.room.Relation;
-
 import com.example.androidapplicationv3.database.entity.RequestEntity;
 import com.example.androidapplicationv3.database.entity.StatusEntity;
 import com.example.androidapplicationv3.database.entity.TypeEntity;

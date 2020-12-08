@@ -111,8 +111,8 @@ public class RequestEntity {
         HashMap<String, Object> result = new HashMap<>();
         result.put("dateDebut", dateDebut);
         result.put("dateFin", dateFin);
-        result.put("status", idStatus);
-        result.put("type", idType);
+        result.put("idStatus", idStatus);
+        result.put("idType", idType);
         result.put("remark", remark);
         return result;
     }

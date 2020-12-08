@@ -67,11 +67,13 @@ public class RequestViewModel extends AndroidViewModel {
     }
 
     public void updateRequest(RequestEntity request, OnAsyncEventListener callback) {
-        requestRepository.update(request, callback);
+        ((BaseApp) getApplication()).getRequestRepository()
+                .update(request, callback);
     }
 
     public void deleteRequest(RequestEntity request, OnAsyncEventListener callback) {
-        requestRepository.delete(request, callback);
+        ((BaseApp) getApplication()).getRequestRepository()
+                .delete(request, callback);
     }}
 
 

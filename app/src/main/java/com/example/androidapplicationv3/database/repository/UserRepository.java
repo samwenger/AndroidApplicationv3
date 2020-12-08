@@ -1,20 +1,23 @@
 package com.example.androidapplicationv3.database.repository;
 
-import android.app.Application;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
-import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.database.entity.UserEntity;
 import com.example.androidapplicationv3.database.firebase.UserLiveData;
 import com.example.androidapplicationv3.util.OnAsyncEventListener;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class UserRepository {
@@ -24,6 +27,7 @@ public class UserRepository {
     private static UserRepository instance;
 
     private UserRepository() {
+
     }
 
     public static UserRepository getInstance() {
@@ -48,6 +52,31 @@ public class UserRepository {
                 .getReference("users")
                 .child(userId);
         return new UserLiveData(reference);
+    }
+
+
+    public UserEntity getUserStatic(String idUser) {
+
+        List<UserEntity> users = new ArrayList<>();
+
+        DatabaseReference reference = FirebaseDatabase.getInstance().getReference().child("users").child(idUser);
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                UserEntity userEntity = snapshot.getValue(UserEntity.class);
+                userEntity.setIdUser(snapshot.getKey());
+                users.add(userEntity);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+            }
+        });
+
+        if(!users.isEmpty()) {
+            return users.get(0);
+        }
+        return null;
     }
 
 

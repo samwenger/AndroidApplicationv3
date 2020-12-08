@@ -48,7 +48,6 @@ public class DetailsRequestAdminActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 saveStatus("approved");
-
             }
         });
 

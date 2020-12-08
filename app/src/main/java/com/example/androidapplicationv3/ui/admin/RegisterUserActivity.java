@@ -1,5 +1,6 @@
 package com.example.androidapplicationv3.ui.admin;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -7,16 +8,17 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
 
 import com.example.androidapplicationv3.BaseApp;
 import com.example.androidapplicationv3.R;
 import com.example.androidapplicationv3.database.entity.UserEntity;
 import com.example.androidapplicationv3.database.repository.UserRepository;
-import com.example.androidapplicationv3.ui.BaseActivity;
+import com.example.androidapplicationv3.ui.MainActivity;
 import com.example.androidapplicationv3.util.OnAsyncEventListener;
 
-public class RegisterUserActivity extends BaseActivity {
+public class RegisterUserActivity extends AppCompatActivity {
 
     private static final String TAG = "RegisterUserActivity";
     private static final int SAVE_USER = 1;
@@ -36,12 +38,10 @@ public class RegisterUserActivity extends BaseActivity {
 
         // initialize view
         super.onCreate(savedInstanceState);
-        getLayoutInflater().inflate(R.layout.activity_register_user, frameLayout);
+        setContentView(R.layout.activity_register_user);
         setTitle(getString(R.string.title_activity_registeruser));
         repository = ((BaseApp) getApplication()).getUserRepository();
-        navigationView.setCheckedItem(position);
         initiateView();
-
     }
 
     /**
@@ -117,12 +117,7 @@ public class RegisterUserActivity extends BaseActivity {
             inputUsername.requestFocus();
             return;
         }
-        if(username.length() < 6) {
-           inputUsername.setError(getString(R.string.error_register_username_too_short));
-           inputUsername.requestFocus();
-           return;
-        }
-        if(!username.contains(".")) {
+        if(!android.util.Patterns.EMAIL_ADDRESS.matcher(username).matches()) {
             inputUsername.setError(getString(R.string.error_register_invalid_username));
             inputUsername.requestFocus();
             return;
@@ -172,7 +167,8 @@ public class RegisterUserActivity extends BaseActivity {
         if (response) {
             toast = Toast.makeText(this, getString(R.string.user_created_msg), Toast.LENGTH_LONG);
             toast.show();
-            onBackPressed();
+            Intent intent = new Intent(RegisterUserActivity.this, MainActivity.class);
+            startActivity(intent);
         } else {
             inputUsername.setError(getString(R.string.error_register_username_alreadyinuse));
             inputUsername.requestFocus();

@@ -1,14 +1,13 @@
 package com.example.androidapplicationv3.ui.request;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.content.SharedPreferences;
-import android.os.Bundle;
-import android.view.View;
 
 import com.example.androidapplicationv3.R;
 import com.example.androidapplicationv3.adapter.RecyclerAdapterRequestsForUser;
@@ -16,7 +15,6 @@ import com.example.androidapplicationv3.database.pojo.RequestWithType;
 import com.example.androidapplicationv3.ui.BaseActivity;
 import com.example.androidapplicationv3.util.RecyclerViewItemClickListener;
 import com.example.androidapplicationv3.viewmodel.RequestListViewModel;
-import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.ArrayList;
 import java.util.List;

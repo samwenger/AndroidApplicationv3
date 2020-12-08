@@ -15,7 +15,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.androidapplicationv3.R;
-import com.example.androidapplicationv3.ui.admin.RegisterUserActivity;
 import com.example.androidapplicationv3.ui.admin.RequestsAdminActivity;
 import com.example.androidapplicationv3.ui.managment.LoginActivity;
 import com.example.androidapplicationv3.ui.managment.SettingsActivity;
@@ -69,7 +68,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
         if (isAdmin) {
             // Display admin menus only to admin users
             navigationView.getMenu().findItem(R.id.nav_adminrequests).setVisible(true);
-            navigationView.getMenu().findItem(R.id.nav_registeruser).setVisible(true);
         }
 
 
@@ -109,9 +107,6 @@ public class BaseActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_adminrequests:
                 intent = new Intent(this, RequestsAdminActivity.class);
-                break;
-            case R.id.nav_registeruser:
-                intent = new Intent(this, RegisterUserActivity.class);
                 break;
         }
         if (intent != null) {

@@ -6,14 +6,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
+
 public class StatusEntity {
 
     private String idStatus;
-    private String status;
+    private String name;
+
+    public StatusEntity() {
+
+    }
 
     public StatusEntity(String idStatus, String status) {
         this.idStatus=idStatus;
-        this.status = status;
+        this.name = status;
     }
 
     @Exclude
@@ -22,11 +27,15 @@ public class StatusEntity {
     }
 
     public String getStatus() {
-        return status;
+        return name;
+    }
+
+    public void setIdStatus(String idStatus) {
+        this.idStatus = idStatus;
     }
 
     public void setStatus(String status) {
-        this.status = status;
+        this.name = status;
     }
 
     @Override
@@ -45,7 +54,7 @@ public class StatusEntity {
     @Exclude
     public Map<String, Object> toMap() {
         HashMap<String, Object> result = new HashMap<>();
-        result.put("name", status);
+        result.put("name", name);
         return result;
     }
 

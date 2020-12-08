@@ -11,6 +11,10 @@ public class TypeEntity {
     private String idType;
     private String type;
 
+    public TypeEntity() {
+
+    }
+
     public TypeEntity(String idType, String type) {
         this.idType=idType;
         this.type = type;
@@ -23,6 +27,10 @@ public class TypeEntity {
 
     public String getType() {
         return type;
+    }
+
+    public void setIdType(String idType) {
+        this.idType = idType;
     }
 
     public void setType(String type) {

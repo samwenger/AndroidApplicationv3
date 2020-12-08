@@ -7,15 +7,13 @@ import androidx.lifecycle.LiveData;
 
 import com.example.androidapplicationv3.database.entity.RequestEntity;
 import com.example.androidapplicationv3.database.entity.UserEntity;
-import com.example.androidapplicationv3.database.pojo.RequestWithType;
 import com.example.androidapplicationv3.database.pojo.RequestWithUser;
+import com.example.androidapplicationv3.database.repository.RequestRepository;
+import com.example.androidapplicationv3.database.repository.UserRepository;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AdminRequestLiveData extends LiveData<RequestWithUser> {
 
@@ -47,7 +45,27 @@ public class AdminRequestLiveData extends LiveData<RequestWithUser> {
     private class MyValueEventListener implements ValueEventListener {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            setValue(toRequestWithUser(dataSnapshot));
+
+            if (!dataSnapshot.exists()) {
+                return;
+            }
+
+            RequestWithUser requestWithUser = new RequestWithUser();
+
+            LiveData<UserEntity> user = UserRepository.getInstance().getUser(idUser);
+            user.observeForever(userEntity -> {
+                if (userEntity != null) {
+                    requestWithUser.request = dataSnapshot.getValue(RequestEntity.class);
+                    requestWithUser.request.setIdRequest(dataSnapshot.getKey());
+                    requestWithUser.request.setIdUser(idUser);
+
+                    requestWithUser.status = RequestRepository.getInstance().getStatusById(requestWithUser.request.getIdStatus());
+                    requestWithUser.type = RequestRepository.getInstance().getTypeById(requestWithUser.request.getIdType());
+                    requestWithUser.user = userEntity;
+
+                    setValue(requestWithUser);
+                }
+            });
         }
 
         @Override
@@ -55,23 +73,4 @@ public class AdminRequestLiveData extends LiveData<RequestWithUser> {
             Log.e(TAG, "Can't listen to query " + reference, databaseError.toException());
         }
     }
-
-    private RequestWithUser toRequestWithUser(DataSnapshot snapshot) {
-        RequestWithUser requestWithUser = new RequestWithUser();
-
-        requestWithUser.request = snapshot.getValue(RequestEntity.class);
-        requestWithUser.request.setIdRequest(snapshot.getKey());
-        requestWithUser.request.setIdUser(idUser);
-
-        requestWithUser.type.setType(requestWithUser.request.getIdType());
-        requestWithUser.status.setStatus(requestWithUser.request.getIdStatus());
-
-      //  requestWithUser.user = ;
-      //  requestWithUser.user.setIdUser(idUser);
-
-        return requestWithUser;
-    }
-
-
-
 }

@@ -1,12 +1,11 @@
 package com.example.androidapplicationv3.ui;
 
-import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 
 import com.example.androidapplicationv3.R;
 import com.example.androidapplicationv3.database.converters.Converters;
@@ -68,7 +67,7 @@ public class MainActivity extends BaseActivity {
         requests = new ArrayList<>();
 
         RequestListViewModel.Factory factory = new RequestListViewModel.Factory(getApplication());
-        requestListViewModel = ViewModelProviders.of(this,factory).get(RequestListViewModel.class);
+        requestListViewModel = new ViewModelProvider(this,factory).get(RequestListViewModel.class);
         requestListViewModel.getRequestsWithInfosByUser().observe(this, requestEntities -> {
             if(requestEntities != null) {
                 requests = requestEntities;
@@ -79,18 +78,18 @@ public class MainActivity extends BaseActivity {
                     // Get the status of the request and choose the corresponding color
                     String idStatut = request.request.getIdStatus();
 
-                    if(idStatut != "refused"){
+                    if(!idStatut.equals("refused")){
                         int color = 0;
-                        if(idStatut == "pending"){
+                        if(idStatut.equals("pending")){
                             color = Color.GRAY;
                         }
-                        else if (idStatut == "approved"){
+                        else if (idStatut.equals("approved")){
                             String idType = request.request.getIdType();
-                            if(idType == "vacation"){
+                            if(idType.equals("vacation")){
                                 color = hex2Rgb(R.color.colorTypeVacation);
-                            } else if(idType == "overtime"){
+                            } else if(idType.equals("overtime")){
                                color = hex2Rgb(R.color.colorTypeSpecialLeave);
-                            } else if(idType == "special"){
+                            } else if(idType.equals("special")){
                                 color = hex2Rgb(R.color.colorTypeOvertime);
                             } else {
                                 color = hex2Rgb(R.color.colorTypeLeaveWithoutPay);
